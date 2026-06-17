@@ -1,0 +1,316 @@
+---
+title: "Analysis plan"
+author: "Andy Field"
+date: today
+format: 
+  html:
+    embed-resources: true
+    toc: true
+    highlight-style: ayu
+    theme: materia
+    code-fold: true
+execute: 
+ warning: false
+bibliography: references.yaml
+---
+
+```{r}
+#| label: setup
+
+library(betareg)
+library(brms)
+library(easystats)
+library(tidyverse)
+#devtools::install_github("vdeminstitute/vdemdata")
+
+# get some colours
+turbo_8 <- scales::viridis_pal(option = "turbo", begin = 0.1, end = 0.9)(8)
+
+```
+
+::: callout-info
+## Coding frame
+
+- [drive.google.com/drive/u/1/folders/1yWJtaviS_1Xevwq9wmhBRTvkb6S8VQ4C](https://drive.google.com/drive/u/1/folders/1yWJtaviS_1Xevwq9wmhBRTvkb6S8VQ4C)
+:::
+
+## Composite outcome measures
+
+Many items can be distilled to a yes or no answer with no distinction between whether the information is in the main article or a supplement. In general, items and sub-items will be scored as 1 (yes) or 0 (no), with variants to this noted below.
+
+- **Descriptive information about scale construction**: Questions 7, 8, 9, 10, and 11 relate to descriptions of how the scale development. For Q9 where there are multiple items under 'yes' these will be scored as 1 (selected) and 0 (not selected). Q10.5 will be scored as (2) 'All items ..', (1) 'Example items ...' and (0) 'No items ...'. This will result in a total count from 0 (reported nothing) to 14 (reported everything that could feasibly be reported)[^1].
+- **Participant descriptions**: Q12-Q14 relate to participant descriptions/missing data. Q12 has three sub-items scored in the normal way resulting (score range 0-3); Q13.2 scored treating location, administration and mode as sub-items so the range of scores will be 0-4. Q14 scored in the usual way. Potential range across these items is 0 (reported nothing) to 8 (reported everything).
+- **Validity**: Q15.4 and Q15.5 each scored as 1 (they reported something) yielding a total ranging from 0 (not reported) to 2 (reported both convergent and discriminant).
+- **Reliability**: Q15.3 scored as 1 for every item selected yielding a total ranging from 0 (nothing reported) to 4 (reported everything)[^2]
+- **Dimensionality**: Different scores will be computed for EFA/PCA and CFA
+  - **FA/PC Dimensionality**: If an EFA or PCA is reported then Q15.1 or Q15.3 items are summed (score 1 for everything selected) to yield a score from 0 to 10 (or more if multiple items are written in other)
+  - **CFA Dimensionality**: For CFA Q15.2 items are summed (score 1 for everything selected) to yield a score from 0 to 6 (or more if multiple items are written in other)
+- **Overall score (primary outcome)**: to compute an overall score, we will sum the aforementioned scores.
+
+[^1]: technically the score could be higher if multiple things are coded under other in Q9, but this is unlikely in practice
+
+[^2]: technically the score could be higher if multiple things are mentioned under 'other'
+
+## Mahima's Statistical models
+
+### Primary analysis
+
+The primary outcome will be the proportion of selected items on the coding scheme within each article. The outcomes are therefore proportions and a beta-regression model will be used [@ferrari2004; @geller2026; @smithson2006] with piecewise linear trends for pre and post-2014.
+
+The model is
+
+$$
+\begin{aligned}
+g\left(\mu_i\right) &= \ln\left(\frac{\mu_i}{1-\mu_i}\right) =  \eta_i\\
+\eta_i &= \beta_{0} + \beta_1\text{time}_{i} + \beta_2\left(\text{time}_{i}-12\right)\times \text{era}_{i} 
+\end{aligned}
+$$
+
+::: callout-note
+## Piecewise linear trends
+
+When `era` = 0 (pre-2014) the linear part of the model is:
+
+$$
+\begin{aligned}
+\eta_i &= \beta_{0} + \beta_1\text{time}_{i}
+\end{aligned}
+$$
+
+So $\beta_1$ is the slope for time for articles pre-2014.
+
+When `era` = 1 (post-2014) the linear part of the model is:
+
+$$
+\begin{aligned}
+\eta_i &= \beta_{0} + \beta_1\text{time}_{i} + \beta_2\left(\text{time}_{i}-12\right) \\
+&= \beta_{0} + \beta_1\text{time}_{i} + \beta_2\text{time}_{i}-12\beta_2 \\
+&= \beta_{0} - 12\beta_2 + \left(\beta_1 + \beta_2\right)\text{time}_{i}
+\end{aligned}
+$$
+
+Which is a linear model of the form $y = \alpha + \beta x$ with intercept $\alpha = \beta_{0} - 12\beta_2$ and slope $\beta = \beta_1 + \beta_2$. Therefore the slope post 2014 ($\beta$) is the additive effect of the slope pre-2014 ($\beta_1$) and $\beta_2$. Put another way, $\beta_2$ is the *difference* in the slope at post-2014 compared to pre-2014.
+
+Note also that these models are equivalent at 2014 (`time` = 12):
+
+`era` = 0 (pre-2014):
+
+$$
+\begin{aligned}
+\eta_i &= \beta_{0} + 12\beta_1
+\end{aligned}
+$$
+
+`era` = 1 (post-2014):
+
+$$
+\begin{aligned}
+\eta_i &= \beta_{0} - 12\beta_2 + 12\left(\beta_1 + \beta_2\right) \\
+&= \beta_{0} + 12\beta_1
+\end{aligned}
+$$
+:::
+
+in which:
+
+- `time`: The variable `time` is coded such that 2002 is year zero and subsequent values represent the time since 2002.
+- `era`: a dummy variable coded as 0 = pre-2014, and 1 = post-2014.
+- $\beta_{0}$ is the mean proportion of items selected in 2002 (i.e.`time` and `era` = 0) in log odds units
+- $\beta_{1}$ is the change in the log odds of the mean proportion
+
+This model cannot accommodate 0 and 1 values. Although it seems highly unlikely that any article would receive proportions of 0 (no items selected on the coding scheme) or 1 (all items reported) if there are observed proportions of 0 and 1 we will fit a zero-and-one‐inflated beta (ZOIB) model in which zeros and 1s are modelled by estimating two extra parameters: the number of scores at these extremes ($\alpha$) and the proportion of these scores that are 1 ($\gamma$).
+
+### Priors
+
+The $\beta$s are in logit form. Given they represent changes in the slope and the outcome is on a 0-1 scale, the maximum plausible change must also lie on this scale.
+
+Given the piecewise nature of the model, we can look at $\beta$ in terms of a rate over 12 time points. Let's think first about $\beta$ if it were expressed in raw units (proportions). That is, $\beta  = p_t - p_{t-1}$. If the proportion of items checked changed from 0 (no items) to 1 (all items), this would equate to a change of $\frac{1}{12} = 0.08$. We could treat this as an absolute maximum change in the proportion for every unit of time. The minimum change is, of course 0. Therefore, in raw units, $0 < |\beta| < 0.08$.
+
+However, the $\beta$s in the beta model represent the change in the log odds, and not the change in the raw proportion. That is:
+
+$$
+\begin{aligned}
+\beta  &= \ln\left(\frac{p_t}{1-p_t}\right) - \ln\left(\frac{p_{t-1}}{1-p_{t-1}}\right)
+\end{aligned}
+$$
+
+The minimum plausible absolute value is no change; that is
+
+$$
+\begin{aligned}
+\ln\left(\frac{p_t}{1-p_t}\right) &= \ln\left(\frac{p_{t-1}}{1-p_{t-1}}\right)
+\end{aligned}
+$$
+
+This will yield $\beta = 0$ and $OR = e^{\beta} = 1$. What about other potential changes? We can get a crude sense of the range of plausible values by plotting
+
+$$
+\begin{aligned}
+\beta = \ln\left(\frac{p_{t-1} + \delta}{1-p_{t-1} + \delta}\right) - \ln\left(\frac{p_{t-1}}{1-p_{t-1}}\right)
+\end{aligned}
+$$
+
+in which $\delta$ is the raw change in the initial proportion. @fig-plausible shows values of $beta$ as a function of the raw change in the proportion ($\delta$) and the initial proportion ($p_{t-1}$). Even at the very extremes of what we might plausibly expect, we're looking at $-2 < \beta < 2$ and we should constrain the prior accordingly.
+
+However, we also don't expect proportions to decrease. Pre-2014 we expect a fairly flat line (that is, no change in reporting), but post-2014 we expect a positive gradient. So our priors should lean towards positive values. Based on @fig-plausible, we might, for example, want to capture the range of $-0.04 < \delta < 0.08$, which equates to $-0.6 < \beta < 1.8$. @fig-priors shows a standard normal (orange). The shaded area represents the limits of plausible values of $beta$ from @fig-plausible. The standard normal $N(0, 1)$ is both too wide and centred lower than desirable. The blue curve shows $N(0.5, 0.25)$, which seems to provide good coverage of the shaded area.
+
+For the intercept, we might reasonably expect people to report 25-75% of items. The most extreme values would be base rates of around 0.1 ($\beta_0 = \ln(\frac{0.1}{0.9}) = -2.2$) and 0.9 ($\beta_0 = \ln(\frac{0.9}{0.1}) = 2.2$). A $N(0, 3)$ distribution (green line in @fig-priors) captures these extremes.
+
+
+```{r}
+#| label: fig-plausible
+#| caption: Change in the log odds as a function of the change in raw proportion
+
+lo_tib <- tibble(
+  p1 = rep(seq(0.1, 0.9, 0.1), each = 17),
+  delta = rep(seq(-0.08, 0.08, 0.01), 9),
+  p1_log_odds = log(p1/(1-p1)),
+  p2_log_odds = log((p1+delta)/(1-(p1+delta))),
+  beta = p2_log_odds - p1_log_odds,
+  OR = exp(beta)
+  )
+
+
+ggplot(data = lo_tib, aes(x = delta, y = beta, colour = as.factor(p1))) +
+  geom_line() +
+  coord_cartesian(ylim = c(-2, 2)) +
+  scale_y_continuous(breaks = seq(-2, 2, 0.2)) +
+  scale_x_continuous(breaks = seq(-0.08, 0.08, 0.02)) +
+  scale_colour_viridis_d(option = "turbo") +
+  labs(x = bquote("Change in proportion per unit change in time ("*delta*")"), y = bquote(beta), colour = bquote(p[t-1])) +
+  theme_minimal()
+
+```
+
+
+```{r}
+#| label: fig-priors
+#| caption: Potential normal priors
+
+ggplot(data = data.frame(x = c(-4, 4)), aes(x)) +
+    geom_rect(aes(xmin = -0.6, xmax = 1.8, ymin = 0, ymax = 1), fill  = turbo_8[3], alpha = 0.1) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1), colour = turbo_8[7]) + 
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0.5, sd = sqrt(0.25)), colour = turbo_8[2]) + 
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = sqrt(3)), colour = turbo_8[4]) + 
+  scale_x_continuous(breaks = seq(-4, 4, 0.5)) +
+  labs(x = bquote(beta), y = "Density") +
+  theme_minimal()
+
+```
+
+
+```{r}
+#| label: sanity_chk
+#| eval: false
+
+sim_dat <- function(b0, b1, steps = 12, plogis = F){
+  dat <- tibble(
+    t = 0:steps,
+    p = seq(b0, b0+steps*b1, b1)
+    )
+  
+  model_beta <- betareg(p ~ t | t, 
+                      data = dat, 
+                      link = "logit")
+  
+  if(plogis){
+    plogis(coef(model_beta))
+  } else {
+    coef(model_beta)
+  }
+}
+
+
+sim_dat(b0 = 0.1, b1 = 0.07)
+sim_dat(b0 = 0.5, b1 = 0.04, plogis = T)
+```
+### Secondary analysis
+
+The same model will be fit for each sub-dimension separately (outcome is proportion of items selected):
+
+- Descriptive information about scale construction
+- Participant descriptions
+- Validity and reliability (combined)
+- Dimensionality: studies will be excluded if 15.1a, 15.1b and 15.1c were not selected
+
+For these models there are no a priori expectations about the effects so weaker priors will be used for the betas. We will use $N(0, 1)$.
+
+## Amelia's Statistical models
+
+The model fitted will be
+
+$$
+\begin{aligned}
+g\left(\mu_i\right) &= \ln\left(\frac{\mu_i}{1-\mu_i}\right) =  \eta_i\\
+\eta_i &= \beta_{0} + \beta_1\log(\text{JIF}_{i}) 
+\end{aligned}
+$$
+
+The log of the JIF will be used because it is highly skewed. When log predictors are used the relationship between the odds ratio and $\beta$ is: [^3]
+
+[^3]: see [https://stats.stackexchange.com/questions/8318/interpretation-of-log-transformed-predictors-in-logistic-regression](https://stats.stackexchange.com/questions/8318/interpretation-of-log-transformed-predictors-in-logistic-regression)
+
+$$
+\begin{aligned}
+OR_{ij} &= \left(\frac{x_i}{x_j}\right)^\beta 
+\end{aligned}
+$$
+
+For example, if we want to look at the odds ratio associated with a doubling of the JIF we have:
+
+$$
+\begin{aligned}
+OR &= 2^\beta 
+\end{aligned}
+$$
+
+If the JIF has no effect then $OR = 1$ and
+
+$$
+\begin{aligned}
+1 &= 2^\beta \\
+\ln(1) &= \ln(2^\beta) \\
+0 &= \beta\ln(2) \\
+\beta &= 0
+\end{aligned}
+$$
+
+What's the maximum effect we might expect from a doubling of the JIF? Theoretically we could go from a proportion of 0 to 1 but this wouldn't happen in practice. A huge effect would be a change in proportion of 0.5. This equates to between 14 to 19 additional items being checked on the coding scheme. Using $p_{t-1} = 0.25$ and $p_{t} = 0.25 + 0.5 = 0.75$ this yields an odds ratio of
+
+$$
+\begin{aligned}
+OR &= \frac{\frac{p_t}{1-p_t}}{\frac{p_{t-1}}{1-p_{t-1}}} = \frac{p_t}{1-p_t}\times\frac{1-p_{t-1}}{p_{t-1}} \\
+&= \frac{0.75}{0.25}\times\frac{0.75}{0.25} \\
+&= 9
+\end{aligned}
+$$
+
+If we expect this massive change from a doubling of the JIF we get
+
+$$
+\begin{aligned}
+9 &= 2^\beta \\
+\ln(9) &= \ln(2^\beta) \\
+\beta &= \frac{\ln(9)}{\ln(2)} \\
+&= 3.17
+\end{aligned}
+$$
+
+Remembering we have no prediction about whether JIF will improve or harm reporting (many high JIF papers restricts words), we should centre the prior on 0 and have it capture at the very extremes $\beta = \pm 3.17$. A standard normal ($N(0,1)$) seems to capture this range and be weakly informative (orange line in @fig-prior2).
+
+For the intercept, we might reasonably expect people to report 25-75% of items. The most extreme values would be base rates of around 0.1 ($\beta_0 = \ln(\frac{0.1}{0.9}) = -2.2$) and 0.9 ($\beta_0 = \ln(\frac{0.9}{0.1}) = 2.2$). A $N(0, 3)$ distribution (blue line in @fig-prior2) captures these extremes.
+
+
+```{r}
+#| label: fig-prior2
+#| caption: Potential normal prior
+
+ggplot(data = data.frame(x = c(-4, 4)), aes(x)) +
+    geom_rect(aes(xmin = -3.17, xmax = 3.17, ymin = 0, ymax = 1), fill  = turbo_8[3], alpha = 0.1) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1), colour = turbo_8[7]) + 
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = sqrt(3)), colour = turbo_8[1]) + 
+  scale_x_continuous(breaks = seq(-4, 4, 0.5)) +
+  labs(x = bquote(beta), y = "Density") +
+  theme_minimal()
+
+```

@@ -1,0 +1,99 @@
+---
+references:
+- id: ferrari2004
+  _eprint: "https://doi.org/10.1080/0266476042000214501"
+  accessed: "21:58:06"
+  author:
+  - family: Ferrari
+    given: Silvia
+  - family: Cribari-Neto
+    given: Francisco
+  citationKey: ferrari_beta_2004
+  container-title: Journal of Applied Statistics
+  DOI: 10.1080/0266476042000214501
+  ISSN: 0266-4763
+  issue: 7
+  issued: 2004-08-01
+  key: 9JARKSIS
+  libraryID: 1
+  note: "\\_eprint: https://doi.org/10.1080/0266476042000214501"
+  page: 799-815
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  publisher: Taylor & Francis
+  source: Taylor and Francis+NEJM
+  title: Beta Regression for Modelling Rates and Proportions
+  type: article-journal
+  URL: "https://doi.org/10.1080/0266476042000214501"
+  volume: 31
+- id: jgeller1122026
+  accessed: "08:11:07"
+  author:
+  - family: jgeller112
+  - family: Vuorre
+    given: Matti
+  - family: Kubinec
+    given: Robert
+  - family: Pelleriti
+    given: Chelsea Parlett
+  citationKey: jgeller112_jgeller112beta_regression_tutorial_2026
+  DOI: 10.5281/zenodo.20127600
+  issued: 2026-05-11
+  key: WPF854HC
+  libraryID: 1
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  publisher: Zenodo
+  source: Zenodo
+  title: "jgeller112/beta_regression_tutorial: RR Resubmission"
+  title-short: jgeller112/beta_regression_tutorial
+  type: book
+  URL: "https://zenodo.org/records/20127600"
+- id: smithson2006
+  accessed: "08:27:42"
+  author:
+  - family: Smithson
+    given: Michael
+  - family: Verkuilen
+    given: Jay
+  citationKey: smithson_better_2006
+  container-title: Psychological Methods
+  container-title-short: Psychological Methods
+  DOI: 10.1037/1082-989X.11.1.54
+  ISSN: 1939-1463, 1082-989X
+  issue: 1
+  issued: 2006-03
+  key: DRZPDCGQ
+  language: en
+  libraryID: 1
+  page: 54-71
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: DOI.org (Crossref)
+  title: A better lemon squeezer? Maximum-likelihood regression with
+    beta-distributed dependent variables.
+  title-short: A better lemon squeezer?
+  type: article-journal
+  URL: "https://doi.apa.org/doi/10.1037/1082-989X.11.1.54"
+  volume: 11
+- id: geller2026
+  accessed: "08:11:07"
+  author:
+  - family: Geller
+    given: Jason
+  - family: Vuorre
+    given: Matti
+  - family: Kubinec
+    given: Robert
+  - family: Pelleriti
+    given: Chelsea Parlett
+  citationKey: jgeller112_jgeller112beta_regression_tutorial_2026
+  DOI: 10.5281/zenodo.20127600
+  issued: 2026-05-11
+  key: WPF854HC
+  libraryID: 1
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  publisher: Zenodo
+  source: Zenodo
+  title: "jgeller112/beta_regression_tutorial: RR Resubmission"
+  title-short: jgeller112/beta_regression_tutorial
+  type: book
+  URL: "https://zenodo.org/records/20127600"
+...
