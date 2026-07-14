@@ -96,4 +96,586 @@ references:
   title-short: jgeller112/beta_regression_tutorial
   type: book
   URL: "https://zenodo.org/records/20127600"
+- id: barry2013
+  author:
+  - family: Barry
+    given: Adam E.
+  - family: Chaney
+    given: Beth
+  - family: Piazza-Gardner
+    given: Anna K.
+  - family: Chavarria
+    given: Enmanuel A.
+  container-title: Health Education &amp; Behavior
+  container-title-short: Health Educ Behav
+  DOI: 10.1177/1090198113483139
+  is-referenced-by-count: 79
+  ISSN: 1090-1981
+  issue: 1
+  issued: 2013-04-03
+  language: en
+  member: 179
+  page: 12-18
+  prefix: 10.1177
+  providerKey: doi
+  publisher: SAGE Publications
+  reference-count: 30
+  references-count: 30
+  score: 1
+  source: Crossref
+  subtitle: A Review of Seven Journals
+  title: Validity and Reliability Reporting Practices in the Field of
+    Health Education and Behavior
+  type: article-journal
+  update-policy: "https://doi.org/10.1177/sage-journals-update-policy"
+  URL: "http://dx.doi.org/10.1177/1090198113483139"
+  volume: 41
+- id: loken2017
+  author:
+  - family: Loken
+    given: Eric
+  - family: Gelman
+    given: Andrew
+  container-title: Science
+  container-title-short: Science
+  DOI: 10.1126/science.aal3618
+  is-referenced-by-count: 509
+  ISSN: 0036-8075
+  issue: 6325
+  issued: 2017-02-10
+  language: en
+  member: 221
+  page: 584-585
+  prefix: 10.1126
+  providerKey: doi
+  publisher: American Association for the Advancement of Science (AAAS)
+  reference-count: 12
+  references-count: 12
+  score: 1
+  source: Crossref
+  title: Measurement error and the replication crisis
+  type: article-journal
+  URL: "http://dx.doi.org/10.1126/science.aal3618"
+  volume: 355
+- id: hedge2017
+  author:
+  - family: Hedge
+    given: Craig
+  - family: Powell
+    given: Georgina
+  - family: Sumner
+    given: Petroc
+  container-title: Behavior Research Methods
+  container-title-short: Behav Res
+  DOI: 10.3758/s13428-017-0935-1
+  is-referenced-by-count: 1075
+  ISSN: 1554-3528
+  issue: 3
+  issued: 2017-07-19
+  language: en
+  member: 297
+  page: 1166-1186
+  prefix: 10.3758
+  providerKey: doi
+  publisher: Springer Science and Business Media LLC
+  reference-count: 137
+  references-count: 137
+  score: 1
+  source: Crossref
+  title: "The reliability paradox: Why robust cognitive tasks do not
+    produce reliable individual differences"
+  type: article-journal
+  update-policy: "https://doi.org/10.1007/springer_crossmark_policy"
+  URL: "http://dx.doi.org/10.3758/s13428-017-0935-1"
+  volume: 50
+- id: estimati2015
+  article-number: aac4716
+  author:
+  - 
+  container-title: Science
+  container-title-short: Science
+  DOI: 10.1126/science.aac4716
+  is-referenced-by-count: 5353
+  ISSN: 0036-8075
+  issue: 6251
+  issued: 2015-08-28
+  language: en
+  member: 221
+  prefix: 10.1126
+  providerKey: doi
+  publisher: American Association for the Advancement of Science (AAAS)
+  reference-count: 41
+  references-count: 41
+  score: 1
+  source: Crossref
+  title: Estimating the reproducibility of psychological science
+  type: article-journal
+  URL: "http://dx.doi.org/10.1126/science.aac4716"
+  volume: 349
+- id: nosek2015
+  author:
+  - family: Nosek
+    given: B. A.
+  - family: Alter
+    given: G.
+  - family: Banks
+    given: G. C.
+  - family: Borsboom
+    given: D.
+  - family: Bowman
+    given: S. D.
+  - family: Breckler
+    given: S. J.
+  - family: Buck
+    given: S.
+  - family: Chambers
+    given: C. D.
+  - family: Chin
+    given: G.
+  - family: Christensen
+    given: G.
+  - family: Contestabile
+    given: M.
+  - family: Dafoe
+    given: A.
+  - family: Eich
+    given: E.
+  - family: Freese
+    given: J.
+  - family: Glennerster
+    given: R.
+  - family: Goroff
+    given: D.
+  - family: Green
+    given: D. P.
+  - family: Hesse
+    given: B.
+  - family: Humphreys
+    given: M.
+  - family: Ishiyama
+    given: J.
+  - family: Karlan
+    given: D.
+  - family: Kraut
+    given: A.
+  - family: Lupia
+    given: A.
+  - family: Mabry
+    given: P.
+  - family: Madon
+    given: T.
+  - family: Malhotra
+    given: N.
+  - family: Mayo-Wilson
+    given: E.
+  - family: McNutt
+    given: M.
+  - family: Miguel
+    given: E.
+  - family: Paluck
+    given: E. Levy
+  - family: Simonsohn
+    given: U.
+  - family: Soderberg
+    given: C.
+  - family: Spellman
+    given: B. A.
+  - family: Turitto
+    given: J.
+  - family: VandenBos
+    given: G.
+  - family: Vazire
+    given: S.
+  - family: Wagenmakers
+    given: E. J.
+  - family: Wilson
+    given: R.
+  - family: Yarkoni
+    given: T.
+  container-title: Science
+  container-title-short: Science
+  DOI: 10.1126/science.aab2374
+  is-referenced-by-count: 1943
+  ISSN: 0036-8075
+  issue: 6242
+  issued: 2015-06-26
+  language: en
+  member: 221
+  page: 1422-1425
+  prefix: 10.1126
+  providerKey: doi
+  publisher: American Association for the Advancement of Science (AAAS)
+  reference-count: 14
+  references-count: 14
+  score: 1
+  source: Crossref
+  title: Promoting an open research culture
+  type: article-journal
+  URL: "http://dx.doi.org/10.1126/science.aab2374"
+  volume: 348
+- id: korbmacher2023
+  article-number: 3
+  author:
+  - family: Korbmacher
+    given: Max
+  - family: Azevedo
+    given: Flavio
+  - family: Pennington
+    given: Charlotte R.
+  - family: Hartmann
+    given: Helena
+  - family: Pownall
+    given: Madeleine
+  - family: Schmidt
+    given: Kathleen
+  - family: Elsherif
+    given: Mahmoud
+  - family: Breznau
+    given: Nate
+  - family: Robertson
+    given: Olly
+  - family: Kalandadze
+    given: Tamara
+  - family: Yu
+    given: Shijun
+  - family: Baker
+    given: Bradley J.
+  - family: O'Mahony
+    given: Aoife
+  - family: Olsnes
+    given: Jørgen Ø. -S.
+  - family: Shaw
+    given: John J.
+  - family: Gjoneska
+    given: Biljana
+  - family: Yamada
+    given: Yuki
+  - family: Röer
+    given: Jan P.
+  - family: Murphy
+    given: Jennifer
+  - family: Alzahawi
+    given: Shilaan
+  - family: Grinschgl
+    given: Sandra
+  - family: Oliveira
+    given: Catia M.
+  - family: Wingen
+    given: Tobias
+  - family: Yeung
+    given: Siu Kit
+  - family: Liu
+    given: Meng
+  - family: König
+    given: Laura M.
+  - family: Albayrak-Aydemir
+    given: Nihan
+  - family: Lecuona
+    given: Oscar
+  - family: Micheli
+    given: Leticia
+  - family: Evans
+    given: Thomas
+  container-title: Communications Psychology
+  container-title-short: Commun Psychol
+  DOI: 10.1038/s44271-023-00003-2
+  is-referenced-by-count: 102
+  ISSN: 2731-9121
+  issue: 1
+  issued: 2023-07-25
+  language: en
+  member: 297
+  prefix: 10.1038
+  providerKey: doi
+  publisher: Springer Science and Business Media LLC
+  reference-count: 230
+  references-count: 230
+  score: 1
+  source: Crossref
+  title: The replication crisis has led to positive structural,
+    procedural, and community changes
+  type: article-journal
+  update-policy: "https://doi.org/10.1007/springer_crossmark_policy"
+  URL: "http://dx.doi.org/10.1038/s44271-023-00003-2"
+  volume: 1
+- id: appelbaum2018
+  author:
+  - family: Appelbaum
+    given: Mark
+  - family: Cooper
+    given: Harris
+  - family: Kline
+    given: Rex B.
+  - family: Mayo-Wilson
+    given: Evan
+  - family: Nezu
+    given: Arthur M.
+  - family: Rao
+    given: Stephen M.
+  container-title: American Psychologist
+  container-title-short: American Psychologist
+  DOI: 10.1037/amp0000191
+  is-referenced-by-count: 1028
+  ISSN: 1935-990X
+  issue: 1
+  issued: 2018-01
+  language: en
+  member: 15
+  page: 3-25
+  prefix: 10.1037
+  providerKey: doi
+  publisher: American Psychological Association (APA)
+  reference-count: 0
+  references-count: 0
+  score: 1
+  source: Crossref
+  title: "Journal article reporting standards for quantitative research
+    in psychology: The APA Publications and Communications Board task
+    force report."
+  type: article-journal
+  update-policy: "https://doi.org/10.1037/amp0000191"
+  URL: "http://dx.doi.org/10.1037/amp0000191"
+  volume: 73
+- id: flake2020
+  author:
+  - family: Flake
+    given: Jessica Kay
+  - family: Fried
+    given: Eiko I.
+  container-title: Advances in Methods and Practices in Psychological
+    Science
+  container-title-short: Advances in Methods and Practices in
+    Psychological Science
+  DOI: 10.1177/2515245920952393
+  is-referenced-by-count: 543
+  ISSN: 2515-2459
+  issue: 4
+  issued: 2020-12
+  language: en
+  member: 179
+  page: 456-465
+  prefix: 10.1177
+  providerKey: doi
+  publisher: SAGE Publications
+  reference-count: 49
+  references-count: 49
+  score: 1
+  source: Crossref
+  title: "Measurement Schmeasurement: Questionable Measurement Practices
+    and How to Avoid Them"
+  type: article-journal
+  update-policy: "https://doi.org/10.1177/sage-journals-update-policy"
+  URL: "http://dx.doi.org/10.1177/2515245920952393"
+  volume: 3
+- id: parsons2019
+  author:
+  - family: Parsons
+    given: Sam
+  - family: Kruijt
+    given: Anne-Wil
+  - family: Fox
+    given: Elaine
+  container-title: Advances in Methods and Practices in Psychological
+    Science
+  container-title-short: Advances in Methods and Practices in
+    Psychological Science
+  DOI: 10.1177/2515245919879695
+  is-referenced-by-count: 321
+  ISSN: 2515-2459
+  issue: 4
+  issued: 2019-11-06
+  language: en
+  member: 179
+  page: 378-395
+  prefix: 10.1177
+  providerKey: doi
+  publisher: SAGE Publications
+  reference-count: 89
+  references-count: 89
+  score: 1
+  source: Crossref
+  title: Psychological Science Needs a Standard Practice of Reporting
+    the Reliability of Cognitive-Behavioral Measurements
+  type: article-journal
+  update-policy: "https://doi.org/10.1177/sage-journals-update-policy"
+  URL: "http://dx.doi.org/10.1177/2515245919879695"
+  volume: 2
+- id: hussey2020
+  author:
+  - family: Hussey
+    given: Ian
+  - family: Hughes
+    given: Sean
+  container-title: Advances in Methods and Practices in Psychological
+    Science
+  container-title-short: Advances in Methods and Practices in
+    Psychological Science
+  DOI: 10.1177/2515245919882903
+  is-referenced-by-count: 161
+  ISSN: 2515-2459
+  issue: 2
+  issued: 2020-04-09
+  language: en
+  member: 179
+  page: 166-184
+  prefix: 10.1177
+  providerKey: doi
+  publisher: SAGE Publications
+  reference-count: 67
+  references-count: 67
+  score: 1
+  source: Crossref
+  title: Hidden Invalidity Among 15 Commonly Used Measures in Social and
+    Personality Psychology
+  type: article-journal
+  update-policy: "https://doi.org/10.1177/sage-journals-update-policy"
+  URL: "http://dx.doi.org/10.1177/2515245919882903"
+  volume: 3
+- id: flake2017
+  author:
+  - family: Flake
+    given: Jessica K.
+  - family: Pek
+    given: Jolynn
+  - family: Hehman
+    given: Eric
+  container-title: Social Psychological and Personality Science
+  container-title-short: Social Psychological and Personality Science
+  DOI: 10.1177/1948550617693063
+  is-referenced-by-count: 528
+  ISSN: 1948-5506
+  issue: 4
+  issued: 2017-02-28
+  language: en
+  member: 179
+  page: 370-378
+  prefix: 10.1177
+  providerKey: doi
+  publisher: SAGE Publications
+  reference-count: 46
+  references-count: 46
+  score: 1
+  source: Crossref
+  subtitle: Current Practice and Recommendations
+  title: Construct Validation in Social and Personality Research
+  type: article-journal
+  update-policy: "https://doi.org/10.1177/sage-journals-update-policy"
+  URL: "http://dx.doi.org/10.1177/1948550617693063"
+  volume: 8
+- id: meier1990
+  author:
+  - family: Meier
+    given: Scott T.
+  - family: Davis
+    given: Susan R.
+  container-title: Journal of Counseling Psychology
+  container-title-short: Journal of Counseling Psychology
+  DOI: 10.1037/0022-0167.37.1.113
+  is-referenced-by-count: 48
+  ISSN: 1939-2168
+  issue: 1
+  issued: 1990-01
+  language: en
+  member: 15
+  page: 113-115
+  prefix: 10.1037
+  providerKey: doi
+  publisher: American Psychological Association (APA)
+  reference-count: 0
+  references-count: 0
+  score: 1
+  source: Crossref
+  title: Trends in reporting psychometric properties of scales used in
+    counseling psychology research.
+  type: article-journal
+  URL: "http://dx.doi.org/10.1037/0022-0167.37.1.113"
+  volume: 37
+- id: qualls1996a
+  author:
+  - family: Qualls
+    given: Audrey L.
+  - family: Moss
+    given: Angela D.
+  container-title: Educational and Psychological Measurement
+  container-title-short: Educational and Psychological Measurement
+  DOI: 10.1177/0013164496056002002
+  is-referenced-by-count: 19
+  ISSN: 0013-1644
+  issue: 2
+  issued: 1996-04
+  language: en
+  member: 179
+  page: 209-214
+  prefix: 10.1177
+  providerKey: doi
+  publisher: SAGE Publications
+  reference-count: 7
+  references-count: 7
+  score: 1
+  source: Crossref
+  title: The Degree of Congruence between Test Standards and Test
+    Documentation with in Journal Publications
+  type: article-journal
+  URL: "http://dx.doi.org/10.1177/0013164496056002002"
+  volume: 56
+- id: qualls1996
+  author:
+  - family: Qualls
+    given: Audrey L.
+  - family: Moss
+    given: Angela D.
+  container-title: Educational and Psychological Measurement
+  container-title-short: Educational and Psychological Measurement
+  DOI: 10.1177/0013164496056002002
+  is-referenced-by-count: 19
+  ISSN: 0013-1644
+  issue: 2
+  issued: 1996-04
+  language: en
+  member: 179
+  page: 209-214
+  prefix: 10.1177
+  providerKey: doi
+  publisher: SAGE Publications
+  reference-count: 7
+  references-count: 7
+  score: 1
+  source: Crossref
+  title: The Degree of Congruence between Test Standards and Test
+    Documentation with in Journal Publications
+  type: article-journal
+  URL: "http://dx.doi.org/10.1177/0013164496056002002"
+  volume: 56
+- id: slaney2009
+  author:
+  - family: Slaney
+    given: Kathleen L.
+  - family: Tkatchouk
+    given: Masha
+  - family: Gabriel
+    given: Stephanie M.
+  - family: Maraun
+    given: Michael D.
+  container-title: Journal of Psychoeducational Assessment
+  container-title-short: Journal of Psychoeducational Assessment
+  DOI: 10.1177/0734282909335781
+  is-referenced-by-count: 15
+  ISSN: 0734-2829
+  issue: 6
+  issued: 2009-07-09
+  language: en
+  member: 179
+  page: 465-476
+  prefix: 10.1177
+  providerKey: doi
+  publisher: SAGE Publications
+  reference-count: 17
+  references-count: 17
+  score: 1
+  source: Crossref
+  subtitle: Incongruence Between Theory and Practice
+  title: Psychometric Assessment and Reporting Practices
+  type: article-journal
+  URL: "http://dx.doi.org/10.1177/0734282909335781"
+  volume: 27
 ...
