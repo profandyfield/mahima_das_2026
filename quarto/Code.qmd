@@ -1,0 +1,554 @@
+---
+title: "Code"
+author: "Mahima Das"
+format: html
+embed-resources: true
+editor: visual
+---
+
+```{r}
+#load libraries
+
+#| label: setup
+#| message: false
+library(easystats)
+library(tidyverse)
+library(brms)
+
+baseline_year   <- 2002   
+breakpoint_year <- 2014   
+window_years    <- c(2002, 2026)
+
+#'other (please specify)' options are scored and counted in the denominators and set to FALSE to score only the named response options
+include_other_options <- TRUE
+
+max_overrides <- list(
+  construction   = NA,   
+  participants   = NA,
+  validity       = NA,
+  reliability    = NA,
+  efa            = NA,
+  pca            = NA,
+  cfa            = NA
+)
+
+
+#data is loaded here
+codeframe_tib <- readr::read_csv(here::here("data/data2.csv"), name_repair = "minimal", col_types = readr::cols(.default = readr::col_character())) |> 
+  dplyr::slice(-1, -2)
+```
+
+## Screening the coded responses
+
+```{r}
+#| label: screening
+
+#tick-box answers come out as text like "1,3" if more than one box was ticked,so check if a code is in the cell rather than testing it equals the code
+
+selected <- function(x, codes) {
+  str_split(as.character(x), ",\\s*") |>
+    map_lgl(\(cd) any(cd %in% as.character(codes)))
+}
+
+#keep only finished responses for papers that could be open with nothing to exclude
+screened_tib <- codeframe_tib |>
+  dplyr::filter(
+    selected(Finished, 1),
+    selected(PaperAccess, 1),
+    str_trim(as.character(PaperType)) == "1"   #no exclusion criteria apply
+  ) |>
+  dplyr::mutate(doi = str_to_lower(str_trim(SelectedItem)))
+
+#for when papers are coded more than 1
+duplicate_dois <- screened_tib |>
+  count(doi) |>
+  dplyr::filter(n > 1) |>
+  pull(doi)
+
+screened_tib <- screened_tib |>
+  arrange(doi, StartDate) |>
+  distinct(doi, .keep_all = TRUE)
+
+#sanitycheck
+tibble(
+  responses_exported = nrow(codeframe_tib),
+  double_coded       = length(duplicate_dois),
+  papers_analysed    = nrow(screened_tib)
+) |>
+  display()
+```
+
+## Reshaping to one row per measure
+
+```{r}
+#| label: reshape-measures
+
+
+#the export has a block of columns per measure, prefixed 1_ to 10_ thus pulling the numbers out rather than typing 1:10 in case an export has more
+measure_blocks <- names(screened_tib) |>
+  str_extract("^\\d+(?=_)") |>
+  discard(is.na) |>
+  unique() |>
+  as.integer() |>
+  sort()
+
+#stacking the blocks so each measure gets its own row, prefix stripped off the column names so all blocks end up with matching names
+measure_tib <- measure_blocks |>
+  map(\(i) {
+    pfx  <- paste0(i, "_")
+    cols <- str_subset(names(screened_tib), paste0("^", pfx))
+screened_tib |>
+      dplyr::select(ResponseId, CoderID_1, doi, NumOfMeasures, all_of(cols)) |>
+      rename_with(\(x) str_remove(x, fixed(pfx)) |> str_replace_all("[^A-Za-z0-9_]", "_"),
+all_of(cols)) |>
+      dplyr::filter(!is.na(MeasureName), str_trim(MeasureName) != "") |>
+      dplyr::mutate(measure_num = i, .after = doi)
+  }) |>
+  list_rbind()
+
+#sanitycheck
+tibble(
+  measure_blocks_found = length(measure_blocks),
+  measures             = nrow(measure_tib),
+  articles             = n_distinct(measure_tib$doi)
+) |>
+  display()
+```
+
+## Scoring the coding frame
+
+```{r}
+#| label: scoring-functions
+
+#to count an item as "reported" if coded 1 or 2 (main text or supplementary)
+reported     <- function(x) as.integer(selected(x, c(1, 2)))
+
+#same idea but also allows code 3 as "reported" - used for the NumFactors/RotationMethod items where 4 means not reported
+reported_123 <- function(x) as.integer(selected(x, c(1, 2, 3)))
+
+#turns the item depiction question into 0/1/2 instead of raw qualtrics codes 2 = all items shown, 1 = just example items, 0 = nothing shown
+item_depict  <- function(x) dplyr::case_when(
+  selected(x, c(1, 2)) ~ 2L, #all items shown
+  selected(x, c(3, 4)) ~ 1L,   #example items shown
+  .default = 0L
+)
+is_other_option <- function(tib, cols) paste0(cols, "_TEXT") %in% names(tib) # to check whether a column has a matching "_TEXT" free-text column next to it
+
+matching_cols <- function(tib, patterns) {
+  cols <- names(tib) |>
+    keep(\(nm) any(str_detect(nm, patterns))) |>
+    discard(\(nm) str_ends(nm, "_TEXT"))
+  if (!include_other_options) cols <- cols[!is_other_option(tib, cols)]
+  cols
+}
+
+#scoring a set of columns and report the maximum those columns could reach
+score_items <- function(tib, patterns, scorer = reported, max_per_item = 1) {
+  cols <- matching_cols(tib, patterns)
+  if (length(cols) == 0) {
+    return(list(score = rep(0L, nrow(tib)), max = 0))
+  }
+  scores <- tib |>
+    dplyr::select(all_of(cols)) |>
+    dplyr::mutate(across(everything(), scorer))
+  list(score = rowSums(scores), max = length(cols) * max_per_item)
+}
+
+#combine several scored blocks into one component
+#e.g. combine_items(construction_part1, construction_part2) adds their scores together and adds their maxes together too
+combine_items <- function(...) {
+  parts <- list(...)
+  list(
+    score = reduce(map(parts, "score"), `+`),
+    max   = sum(map_dbl(parts, "max"))
+  )
+}
+
+#apply an override from the settings chunk if one was given- to manually fix a component's max (e.g. construction = 14 not 17)
+apply_override <- function(part, name) {
+  override <- max_overrides[[name]]
+  if (!is.null(override) && !is.na(override)) part$max <- override
+  part
+}
+```
+
+```{r}
+#| label: score-components
+
+#descriptive information about scale construction (Q7-Q11)
+construction <- combine_items(
+  score_items(measure_tib, c("^ConstructDesc$", "^TargetPopDesc$", "^MeasureDevDesc$", "^MeasureDevDescWhat_\\d+$", "^ItemTotal$",           "^ResponseInstructions$", "^ScaleResponseFormat$",                           "^RatingScale$", "^ScoringProcedures$", "^ScoreInterpret$")),
+  score_items(measure_tib, "^ItemDepict$", scorer = item_depict, max_per_item = 2)
+) |>
+  apply_override("construction")
+
+#participant descriptions and missing data (Q12-Q14)
+participants <- score_items(
+  measure_tib,
+  c("^NumParticipants$", "^NumGender$", "^NumAge$", "^ParticipantRecruit$",
+    "^DataCollect_\\d+$", "^MissingDat$")
+) |>
+  apply_override("participants")
+
+#validity (Q15.4 and Q15.5): one point each for reporting anything
+convergent   <- score_items(measure_tib, "^Convergent_validity_\\d+$")
+discriminant <- score_items(measure_tib, "^Discriminant_validit_\\d+$")
+validity <- list(
+  score = as.integer(convergent$score > 0) + as.integer(discriminant$score > 0),
+  max   = 2
+) |>
+  apply_override("validity")
+
+#reliability (Q15.3): internal consistency types
+reliability <- score_items(measure_tib, "^InternalConsistency_\\d+$") |>
+  apply_override("reliability")
+
+#dimensionality: separate scores for EFA, PCA and CFA
+efa <- combine_items(
+  score_items(measure_tib, c("^NumFactorsEFA$", "^RotationMethodEFA$"), scorer = reported_123),
+  score_items(measure_tib, "^EFADetail_\\d+$")
+) |>
+  apply_override("efa")
+
+pca <- combine_items(
+  score_items(measure_tib, c("^NumFactorsPCA$", "^RotationMethodPCA$"), scorer = reported_123),
+  score_items(measure_tib, "^PCADetail_\\d+$")
+) |>
+  apply_override("pca")
+
+cfa <- combine_items(
+  score_items(measure_tib, "^CFADetail_\\d+$"),
+  score_items(measure_tib, "^CFAMods$")
+) |>
+  apply_override("cfa")
+
+#sanitycheck
+tibble(
+  component = c("construction", "participants", "validity", "reliability",
+                "efa", "pca", "cfa"),
+  maximum   = c(construction$max, participants$max, validity$max, reliability$max,
+                efa$max, pca$max, cfa$max)
+) |>
+  display()
+```
+
+```{r}
+#| label: build-scores
+
+scored_tib <- measure_tib |>
+  dplyr::mutate(
+    construction      = construction$score,
+    participants_raw  = participants$score,
+    validity          = validity$score,
+    reliability       = reliability$score,
+    
+#which dimensionality analyses were reported for this measure
+    has_efa = reported(Dimensonality_1),
+    has_cfa = reported(Dimensonality_2),
+    has_pca = reported(Dimensonality_3),
+    
+    #efa and pca scored, each is 0 out for anyone who didn't report that particular analysis
+    efa_score = efa$score * has_efa,
+    efa_denom = efa$max * has_efa,
+    pca_score = pca$score * has_pca,
+    pca_denom = pca$max * has_pca,
+    cfa_score = cfa$score * has_cfa,
+    cfa_denom = cfa$max * has_cfa
+  )
+
+#if SameSample == 1 the participant block was not shown again, so the previous measure's participant information applies to the current measure
+scored_tib <- scored_tib |>
+  arrange(ResponseId, measure_num) |>
+  dplyr::mutate(
+    participants = if_else(selected(SameSample, 1), NA_real_, participants_raw)
+  ) |>
+  group_by(ResponseId) |>
+  fill(participants, .direction = "down") |>
+  ungroup() |>
+  dplyr::mutate(participants = replace_na(participants, 0))
+```
+
+```{r}
+#| label: proportions
+#| 
+construction_max <- construction$max
+participants_max <- participants$max
+validity_max     <- validity$max
+reliability_max  <- reliability$max
+
+
+scored_tib |>
+  dplyr::mutate(
+    #overall score (primary outcome)
+    total_score = construction + participants + validity + reliability +
+      efa_score + pca_score + cfa_score,
+    total_max   = construction_max + participants_max + validity_max +
+      reliability_max + efa_denom + pca_denom + cfa_denom,
+    prop_score  = total_score / total_max,
+    
+    #sub-dimension proportions for the secondary analyses
+    prop_construction = construction / construction_max,
+    prop_participants = participants / participants_max,
+    prop_valrel       = (validity + reliability) / (validity_max + reliability_max), prop_dimensionality = if_else(
+      efa_denom + pca_denom + cfa_denom > 0,
+      (efa_score + pca_score + cfa_score) / (efa_denom + pca_denom + cfa_denom),
+      NA_real_
+    )
+  )
+```
+
+```{r}
+#| label: analysis-data
+
+analysis_tib <- scored_tib |>
+  left_join(codeframe_tib, by = "doi") |>
+  dplyr::mutate(time = publication_year - baseline_year,era= as.integer(publication_year >= breakpoint_year),
+                time_post = (time - (breakpoint_year - baseline_year)) * era
+  )
+#sanity check
+tibble(
+  measures      = nrow(analysis_tib),
+  articles      = n_distinct(analysis_tib$doi),
+  unmatched_doi = sum(is.na(analysis_tib$publication_year)),
+  out_of_window = sum(!between(analysis_tib$publication_year,
+                               window_years[1], window_years[2]), na.rm = TRUE)
+) |>
+  display()
+analysis_tib <- analysis_tib |>
+  dplyr::filter(!is.na(publication_year),
+                between(publication_year, window_years[1], window_years[2]))
+```
+
+## Summary statistics
+
+```{r}
+#| label: descriptives
+
+#reset random number generator for reproducibility
+set.seed(1234)
+
+#the outcomes carried through to the models
+outcomes <- c(
+  overall        = "prop_score",
+  construction   = "prop_construction",
+  participants   = "prop_participants",
+  validity_rel   = "prop_valrel",
+  dimensionality = "prop_dimensionality"
+)
+#summary stats (mean, ci etc) for every outcome at once
+analysis_tib |>
+  describe_distribution(select = unname(outcomes), ci = 0.95, iterations = 1000) |>
+  data_remove(c(Kurtosis, Skewness)) |>
+  display(digits = 3)
+
+#how many measures sit exactly on 0 or 1, which decides whether each outcome is modelled with a beta or a zero-one-inflated beta likelihood
+analysis_tib |>
+  dplyr::select(all_of(unname(outcomes))) |>
+  pivot_longer(everything(), names_to = "outcome", values_to = "p") |>
+  dplyr::filter(!is.na(p)) |>
+  group_by(outcome) |>
+  summarise(n = n(), zeros = sum(p == 0), ones = sum(p == 1), .groups = "drop") |>
+  display()
+```
+
+```{r}
+#| label: fig-measures-per-article
+
+#the clustering the random intercept is there to handle
+measures_plot <- analysis_tib |>
+  count(doi, name = "measures") |>
+  ggplot(aes(x = measures)) +
+  geom_bar(fill = "#999933", colour = "black", alpha = 0.7) +
+  scale_x_continuous(breaks = scales::breaks_width(1)) +
+  labs(x = "Measures coded within an article", y = "Number of articles") +
+  theme_minimal()
+
+measures_plot
+```
+
+## Primary analysis
+
+The outcome is the proportion of coding scheme items reported for each measure. Measures are nested within articles, so the model carries a random intercept for article:
+
+$$\begin{aligned}
+g\left(\mu_{ij}\right) &= \ln\left(\frac{\mu_{ij}}{1-\mu_{ij}}\right) = \eta_{ij}\\
+\eta_{ij} &= \left[\beta_{0} + \beta_1\text{time}_{i} + \beta_2\left(\text{time}_{i}-12\right)\times\text{era}_{i}\right] + \left[\mu_{0j} + \varepsilon_{ij}\right]
+\end{aligned}$$
+
+$\beta_1$ is the slope pre-2014 and $\beta_2$ is the *difference* in slope post-2014, so the post-2014 slope is $\beta_1 + \beta_2$. A beta likelihood cannot accommodate proportions of exactly 0 or 1, so a zero-one-inflated beta is fitted instead whenever an outcome touches those boundaries.
+
+```{r}
+#| label: model-function
+
+fit_reporting_model <- function(data, outcome, slope_prior, label) {
+  model_tib <- data |>
+    dplyr::filter(!is.na(.data[[outcome]])) |>
+    dplyr::rename(p = all_of(outcome))
+
+  #zero-one-inflated beta only where the outcome actually reaches 0 or 1
+  model_family <- if (any(model_tib$p %in% c(0, 1))) {
+    zero_one_inflated_beta()
+  } else {
+    Beta(link = "logit")
+  }
+
+  model_priors <- c(
+    slope_prior,
+    prior(normal(0, 3), class = "Intercept"),
+    #noninformative prior restricted to positive values for the random intercept
+    prior(student_t(3, 0, 2.5), class = "sd")
+  )
+
+  brm(
+    p ~ time + time_post + (1 | doi),
+    data       = model_tib,
+    family     = model_family,
+    prior      = model_priors,
+    chains     = 4,
+    iter       = 4000,
+    warmup     = 1000,
+    cores      = parallel::detectCores() |> min(4),
+    seed       = 1234,
+    control    = list(adapt_delta = 0.95),
+    file       = here::here("models", label),
+    file_refit = "on_change"
+  )
+}
+```
+
+```{r}
+#| label: fit-primary
+#| message: false
+
+#reset random number generator for reproducibility
+set.seed(1234)
+
+overall_brm <- fit_reporting_model(
+  data        = analysis_tib,
+  outcome     = outcomes[["overall"]],
+  slope_prior = prior(normal(0.5, 0.25), class = "b"),
+  label       = "overall_brm"
+)
+```
+
+```{r}
+#| label: primary-checks
+
+#convergence diagnostics and a posterior predictive check
+diagnostic_posterior(overall_brm) |> display(digits = 3)
+
+check_predictions(overall_brm) |> plot()
+```
+
+```{r}
+#| label: primary-parameters
+
+model_parameters(
+  overall_brm,
+  centrality = "mean",
+  ci         = 0.95,
+  ci_method  = "hdi",
+  test       = c("pd", "rope"),
+  effects    = "all"
+) |>
+  display(digits = 3)
+
+#beta2 is the change in slope; the post-2014 slope is beta1 + beta2
+hypothesis(overall_brm, "time_post > 0")
+hypothesis(overall_brm, "time + time_post > 0")
+```
+
+```{r}
+#| label: fig-primary-trend
+
+#marginal trend across the study window, averaged over articles
+trend_tib <- tibble(time = seq(0, window_years[2] - baseline_year)) |>
+  dplyr::mutate(
+    era       = as.integer(time >= breakpoint_year - baseline_year),
+    time_post = (time - (breakpoint_year - baseline_year)) * era
+  ) |>
+  estimate_expectation(model = overall_brm, data = _) |>
+  as_tibble() |>
+  dplyr::mutate(year = time + baseline_year)
+
+trend_plot <- ggplot(trend_tib, aes(x = year, y = Predicted)) +
+  geom_ribbon(aes(ymin = CI_low, ymax = CI_high), fill = "#999933", alpha = 0.25) +
+  geom_line(colour = "#999933", linewidth = 0.8) +
+  geom_point(data = analysis_tib,
+             aes(x = publication_year, y = prop_score),
+             inherit.aes = FALSE, alpha = 0.3) +
+  geom_vline(xintercept = breakpoint_year, linetype = "dashed") +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(x = "Publication year", y = "Proportion of items reported") +
+  theme_minimal()
+
+trend_plot
+```
+
+## Secondary analyses
+
+The same model is fitted to each sub-dimension separately. There are no *a priori* expectations about these effects, so a weaker $N(0, 1)$ prior is used for the slopes. Measures reporting no dimensionality analysis contribute no dimensionality proportion and are dropped from that model only.
+
+```{r}
+#| label: fit-secondary
+#| message: false
+
+set.seed(1234)
+
+secondary_brms <- outcomes[names(outcomes) != "overall"] |>
+  imap(\(outcome, label) {
+    fit_reporting_model(
+      data        = analysis_tib,
+      outcome     = outcome,
+      slope_prior = prior(normal(0, 1), class = "b"),
+      label       = paste0(label, "_brm")
+    )
+  })
+```
+
+```{r}
+#| label: secondary-parameters
+
+#posterior summaries for every sub-dimension in one table
+secondary_brms |>
+  imap(\(model, label) {
+    model_parameters(model, centrality = "mean", ci = 0.95,
+                     ci_method = "hdi", test = c("pd", "rope")) |>
+      as_tibble() |>
+      dplyr::mutate(outcome = label, .before = 1)
+  }) |>
+  list_rbind() |>
+  dplyr::filter(str_detect(Parameter, "Intercept|^time")) |>
+  display(digits = 3)
+```
+
+```{r}
+#| label: fig-secondary-trends
+
+#observed sub-dimension proportions across time
+secondary_plot <- analysis_tib |>
+  dplyr::select(publication_year,
+                all_of(unname(outcomes[names(outcomes) != "overall"]))) |>
+  pivot_longer(-publication_year, names_to = "outcome", values_to = "p") |>
+  dplyr::filter(!is.na(p)) |>
+  group_by(publication_year, outcome) |>
+  summarise(p = mean(p), n = n(), .groups = "drop") |>
+  ggplot(aes(x = publication_year, y = p, colour = outcome)) +
+  geom_line() +
+  geom_point(aes(size = n), alpha = 0.6) +
+  geom_vline(xintercept = breakpoint_year, linetype = "dashed") +
+  coord_cartesian(ylim = c(0, 1)) +
+  scale_colour_viridis_d(begin = 0.3, end = 0.85) +
+  labs(x = "Publication year", y = "Mean proportion of items reported",
+       colour = "Sub-dimension", size = "k measures") +
+  theme_minimal()
+
+secondary_plot
+```
+
+```{r}
+#| label: citations
+cite_packages()
+```
+
+## 
