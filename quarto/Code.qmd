@@ -42,6 +42,7 @@ meta_tib <- readr::read_csv(here::here("data/meta_data_final_dataset.csv")) |>
   dplyr::mutate(doi = str_to_lower(str_trim(doi))) |> 
   dplyr::select(doi, publication_year)
 
+meta_raw_tib<-readr::read_csv(here::here("data/meta_data_final_dataset.csv"))
 ```
 
 ## Screening the coded responses
@@ -561,24 +562,37 @@ secondary_brms |>
 
 ```{r}
 #| label: fig-secondary-trends
+#| fig-cap: "Reporting trajectories for the four sub-dimensions across 2002 to 2026."
+#| echo: false
 
-#observed sub-dimension proportions across time
-analysis_tib |>
+fig_trends<- analysis_tib |>
   dplyr::select(publication_year,
-                all_of(unname(outcomes[names(outcomes) != "overall"]))) |>
+                prop_construction, prop_participants,
+                prop_valrel, prop_dimensionality) |>
   pivot_longer(-publication_year, names_to = "outcome", values_to = "p") |>
   dplyr::filter(!is.na(p)) |>
   group_by(publication_year, outcome) |>
-  summarise(p = mean(p), n = n(), .groups = "drop") |>
+  summarise(p = mean(p), n = dplyr::n(), .groups = "drop") |>
+  dplyr::mutate(outcome = dplyr::recode(outcome,
+                                        prop_participants   = "Sample description",
+                                        prop_dimensionality = "Dimensionality",
+                                        prop_construction   = "Scale construction",
+                                        prop_valrel         = "Validity and reliability")) |>
   ggplot(aes(x = publication_year, y = p, colour = outcome)) +
-  geom_line() +
-  geom_point(aes(size = n), alpha = 0.6) +
-  geom_vline(xintercept = breakpoint_year, linetype = "dashed") +
+  geom_line(linewidth = 0.6) +
+  geom_point(aes(size = n), alpha = 0.55) +
+  geom_vline(xintercept = breakpoint_year, linetype = "dashed",
+             colour = "grey30") +
+  annotate("text", x = breakpoint_year, y = 1.0,
+           label = "2014", hjust = -0.15, size = 3, colour = "grey30") +
   coord_cartesian(ylim = c(0, 1)) +
-  scale_colour_viridis_d(begin = 0.3, end = 0.85) +
+  scale_colour_viridis_d(option = "turbo", begin = 0.25, end = 0.85) +
+  scale_size_continuous(range = c(1, 6)) +
   labs(x = "Publication year", y = "Mean proportion of items reported",
        colour = "Sub-dimension", size = "k measures") +
-  theme_minimal()
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "right",
+        panel.grid.minor = element_blank())
 ```
 
 ```{r}
@@ -601,18 +615,6 @@ secondary_brms <- readRDS("D:/SUSSEX/mahima_das_2026_dissertation/models/seconda
 ```
 
 ```{r}
-secondary_brms |>
-  purrr::imap(\(m, nm) {
-    parameters::model_parameters(m, centrality = "median", ci = 0.95,
-                                 ci_method = "hdi", test = c("pd", "rope")) |>
-      tibble::as_tibble() |>
-      dplyr::mutate(outcome = nm, .before = 1)
-  }) |>
-  purrr::list_rbind() |>
-  dplyr::filter(Parameter %in% c("b_time", "b_time_post"))
-```
-
-```{r}
 #ignore-already saved
 saveRDS(overall_brm, "D:/SUSSEX/mahima_das_2026_dissertation/models/overall_brm.rds")
 saveRDS(secondary_brms, "D:/SUSSEX/mahima_das_2026_dissertation/models/secondary_brms.rds")
@@ -623,3 +625,28 @@ saveRDS(secondary_brms, "D:/SUSSEX/mahima_das_2026_dissertation/models/secondary
 plot(parameters::model_parameters(overall_brm, effects = "fixed"))
 ```
 
+```{r}
+saveRDS(fig_trends, "D:/SUSSEX/mahima_das_2026_dissertation/models/fig-trends.rds")
+```
+
+```{r}
+#| label: tbl-journal-category
+#| tbl-cap: "Distribution of Analysed Articles Across Journal Citation Reports Categories"
+#| echo: false
+
+library(knitr)
+
+analysed_dois <- unique(analysis_tib$doi)
+
+category <- meta_raw_tib |>
+  dplyr::mutate(doi = stringr::str_to_lower(stringr::str_trim(doi))) |>
+  dplyr::filter(doi %in% analysed_dois) |>
+  dplyr::distinct(doi, .keep_all = TRUE) |>
+  tidyr::separate_rows(category, sep = ";\\s*") |>
+  dplyr::mutate(category = stringr::str_to_title(stringr::str_trim(category))) |>
+  dplyr::count(category, name = "n_articles", sort = TRUE)|>
+  display()
+
+
+saveRDS(category, "D:/SUSSEX/mahima_das_2026_dissertation/models/category.rds")
+```
