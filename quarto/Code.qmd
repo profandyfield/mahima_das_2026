@@ -34,7 +34,7 @@ max_overrides <- list(
 
 
 #data is loaded here
-codeframe_tib <- readr::read_csv(here::here("data/data.csv"), name_repair = "minimal", col_types = readr::cols(.default = readr::col_character())) |> 
+codeframe_tib <- readr::read_csv(here::here("data/data2.csv"), name_repair = "minimal", col_types = readr::cols(.default = readr::col_character())) |> 
   dplyr::slice(-1, -2)
 
 #article metadata
@@ -277,14 +277,14 @@ scored_tib <- scored_tib |>
 
 ```{r}
 #| label: proportions
-
+#| 
 construction_max <- construction$max
 participants_max <- participants$max
 validity_max     <- validity$max
 reliability_max  <- reliability$max
 
 
-scored_tib<- scored_tib |>
+scored_tib |>
   dplyr::mutate(
     #overall score (primary outcome)
     total_score = construction + participants + validity + reliability +
@@ -307,11 +307,9 @@ scored_tib<- scored_tib |>
 ```{r}
 #| label: analysis-data
 
-
 analysis_tib <- scored_tib |>
-  left_join(meta_tib, by = "doi") |>
-  dplyr::mutate(time = publication_year - baseline_year,
-                era = as.integer(publication_year >= breakpoint_year),
+  left_join(codeframe_tib, by = "doi") |>
+  dplyr::mutate(time = publication_year - baseline_year,era= as.integer(publication_year >= breakpoint_year),
                 time_post = (time - (breakpoint_year - baseline_year)) * era
   )
 #sanity check
@@ -344,10 +342,9 @@ outcomes <- c(
   validity_rel   = "prop_valrel",
   dimensionality = "prop_dimensionality"
 )
-#summary stats (mean, sd etc) for every outcome at once
+#summary stats (mean, ci etc) for every outcome at once
 analysis_tib |>
-  dplyr::select(all_of(unname(outcomes))) |>
-  describe_distribution() |>
+  describe_distribution(select = unname(outcomes), ci = 0.95, iterations = 1000) |>
   data_remove(c(Kurtosis, Skewness)) |>
   display(digits = 3)
 
@@ -383,107 +380,79 @@ The outcome is the proportion of coding scheme items reported for each measure. 
 $$\begin{aligned}
 g\left(\mu_{ij}\right) &= \ln\left(\frac{\mu_{ij}}{1-\mu_{ij}}\right) = \eta_{ij}\\
 \eta_{ij} &= \left[\beta_{0} + \beta_1\text{time}_{i} + \beta_2\left(\text{time}_{i}-12\right)\times\text{era}_{i}\right] + \left[\mu_{0j} + \varepsilon_{ij}\right]
-\end{aligned}$$
+\end{aligned}$$$$\begin{aligned}g\left(\mu_{ij}\right) &= \ln\left(\frac{\mu_{ij}}{1-\mu_{ij}}\right) = \eta_{ij}\\\eta_{ij} &= \left[\beta_{0} + \beta_1\text{time}_{i} + \beta_2\left(\text{time}_{i}-12\right)\times\text{era}_{i}\right] + \left[\mu_{0j} + \varepsilon_{ij}\right]\end{aligned}$$
 
 $\beta_1$ is the slope pre-2014 and $\beta_2$ is the *difference* in slope post-2014, so the post-2014 slope is $\beta_1 + \beta_2$. A beta likelihood cannot accommodate proportions of exactly 0 or 1, so a zero-one-inflated beta is fitted instead whenever an outcome touches those boundaries.
 
 ```{r}
 #| label: model-function
 
-
-fit_reporting_model <- function(data, outcome, slope_prior, prior_only = FALSE) {
+fit_reporting_model <- function(data, outcome, slope_prior, label) {
   model_tib <- data |>
     dplyr::filter(!is.na(.data[[outcome]])) |>
     dplyr::rename(p = all_of(outcome))
-  
+
+  #zero-one-inflated beta only where the outcome actually reaches 0 or 1
   model_family <- if (any(model_tib$p %in% c(0, 1))) {
-    brms::zero_one_inflated_beta()
+    zero_one_inflated_beta()
   } else {
-    brms::Beta(link = "logit")
+    Beta(link = "logit")
   }
-  
-  f <- brms::brmsformula(p ~ 0 + Intercept + time + time_post + (1 | doi))
-  
+
   model_priors <- c(
     slope_prior,
-    brms::set_prior("normal(0, 3)", class = "b", coef = "Intercept")
+    prior(normal(0, 3), class = "Intercept"),
+    #noninformative prior restricted to positive values for the random intercept
+    prior(student_t(3, 0, 2.5), class = "sd")
   )
-  
-  brms::brm(
-    formula      = f,
-    data         = model_tib,
-    family       = model_family,
-    prior        = model_priors,
-    sample_prior = if (prior_only) "only" else "no",
-    chains       = 4,
-    iter         = 8000,
-    cores        = 4,
-    seed         = 1234,
-    refresh      = 100,
-    backend= "cmdstanr",
-    control      = list(adapt_delta = 0.95)
+
+  brm(
+    p ~ time + time_post + (1 | doi),
+    data       = model_tib,
+    family     = model_family,
+    prior      = model_priors,
+    chains     = 4,
+    iter       = 4000,
+    warmup     = 1000,
+    cores      = parallel::detectCores() |> min(4),
+    seed       = 1234,
+    control    = list(adapt_delta = 0.95),
+    file       = here::here("models", label),
+    file_refit = "on_change"
   )
 }
-```
-
-```{r}
-#| label: prior-check
-#| message: false
-
-set.seed(1234)
-#dont run-IGNORE
-overall_prior_brm <- fit_reporting_model(
-  data        = analysis_tib,
-  outcome     = "prop_score",
-  slope_prior = brms::set_prior("normal(0.5, 0.25)", class = "b"),
-  prior_only  = TRUE
-)
-
-prior_pred_tib <- estimate_relation(overall_prior_brm, keep_iterations = 100) |>
-  reshape_iterations()
-
-ggplot(prior_pred_tib, aes(x = time + baseline_year, y = iter_value, group = iter_group)) +
-  geom_line(alpha = 0.15, colour = "#999933") +
-  coord_cartesian(ylim = c(0, 1)) +
-  labs(x = "Publication year", y = "Prior-implied proportion") +
-  theme_minimal()
 ```
 
 ```{r}
 #| label: fit-primary
 #| message: false
 
+#reset random number generator for reproducibility
 set.seed(1234)
-#dont run-IGNORE
 
-#reporting expected flat pre-2014, improving post-2014
 overall_brm <- fit_reporting_model(
   data        = analysis_tib,
   outcome     = outcomes[["overall"]],
-  slope_prior = brms::set_prior("normal(0.5, 0.25)", class = "b")
+  slope_prior = prior(normal(0.5, 0.25), class = "b"),
+  label       = "overall_brm"
 )
 ```
 
 ```{r}
 #| label: primary-checks
 
-#hairy caterpillars - one trace per chain, no pattern
-plot(overall_brm)
-
-#rhat should be < 1.01, ess > 1000
+#convergence diagnostics and a posterior predictive check
 diagnostic_posterior(overall_brm) |> display(digits = 3)
 
-#does the model reproduce the observed distribution?
 check_predictions(overall_brm) |> plot()
 ```
 
 ```{r}
 #| label: primary-parameters
 
-#median point estimate, 95% hdi, pd (existence) and rope
 model_parameters(
   overall_brm,
-  centrality = "median",
+  centrality = "mean",
   ci         = 0.95,
   ci_method  = "hdi",
   test       = c("pd", "rope"),
@@ -494,52 +463,52 @@ model_parameters(
 #beta2 is the change in slope; the post-2014 slope is beta1 + beta2
 hypothesis(overall_brm, "time_post > 0")
 hypothesis(overall_brm, "time + time_post > 0")
-
-#variance explained (interpret loosely - this is a glm, not linear)
-performance::r2(overall_brm)
 ```
 
 ```{r}
 #| label: fig-primary-trend
 
-#predict the trend across the window, keeping iterations for the fan of lines
-trend_wide <- tibble(time = seq(0, window_years[2] - baseline_year)) |>
+#marginal trend across the study window, averaged over articles
+trend_tib <- tibble(time = seq(0, window_years[2] - baseline_year)) |>
   dplyr::mutate(
     era       = as.integer(time >= breakpoint_year - baseline_year),
-    time_post = (time - (breakpoint_year - baseline_year)) * era,
-    doi       = NA_character_               #population-level, ignore random effect
+    time_post = (time - (breakpoint_year - baseline_year)) * era
   ) |>
-  estimate_relation(model = overall_brm, data = _, keep_iterations = 100) |>
+  estimate_expectation(model = overall_brm, data = _) |>
+  as_tibble() |>
   dplyr::mutate(year = time + baseline_year)
 
-trend_long <- reshape_iterations(trend_wide)
-
-ggplot(analysis_tib, aes(x = publication_year)) +
-  geom_point(aes(y = prop_score), alpha = 0.3) +
-  geom_line(data = trend_long, aes(x = year, y = iter_value, group = iter_group),
-            alpha = 0.08, colour = "#999933") +
-  geom_ribbon(data = trend_wide, aes(x = year, ymin = CI_low, ymax = CI_high),
-              fill = "#999933", alpha = 0.25) +
-  geom_line(data = trend_wide, aes(x = year, y = Predicted),
-            colour = "#999933", linewidth = 0.9) +
+trend_plot <- ggplot(trend_tib, aes(x = year, y = Predicted)) +
+  geom_ribbon(aes(ymin = CI_low, ymax = CI_high), fill = "#999933", alpha = 0.25) +
+  geom_line(colour = "#999933", linewidth = 0.8) +
+  geom_point(data = analysis_tib,
+             aes(x = publication_year, y = prop_score),
+             inherit.aes = FALSE, alpha = 0.3) +
   geom_vline(xintercept = breakpoint_year, linetype = "dashed") +
   coord_cartesian(ylim = c(0, 1)) +
   labs(x = "Publication year", y = "Proportion of items reported") +
   theme_minimal()
+
+trend_plot
 ```
+
+## Secondary analyses
+
+The same model is fitted to each sub-dimension separately. There are no *a priori* expectations about these effects, so a weaker $N(0, 1)$\$N(0, 1)\$ prior is used for the slopes. Measures reporting no dimensionality analysis contribute no dimensionality proportion and are dropped from that model only.
 
 ```{r}
 #| label: fit-secondary
+#| message: false
 
-#dont run-IGNORE
 set.seed(1234)
 
 secondary_brms <- outcomes[names(outcomes) != "overall"] |>
-  map(\(outcome) {
+  imap(\(outcome, label) {
     fit_reporting_model(
       data        = analysis_tib,
       outcome     = outcome,
-      slope_prior = brms::set_prior("normal(0, 1)", class = "b")
+      slope_prior = prior(normal(0, 1), class = "b"),
+      label       = paste0(label, "_brm")
     )
   })
 ```
@@ -550,7 +519,7 @@ secondary_brms <- outcomes[names(outcomes) != "overall"] |>
 #posterior summaries for every sub-dimension in one table
 secondary_brms |>
   imap(\(model, label) {
-    model_parameters(model, centrality = "median", ci = 0.95,
+    model_parameters(model, centrality = "mean", ci = 0.95,
                      ci_method = "hdi", test = c("pd", "rope")) |>
       as_tibble() |>
       dplyr::mutate(outcome = label, .before = 1)
@@ -621,8 +590,8 @@ saveRDS(secondary_brms, "D:/SUSSEX/mahima_das_2026_dissertation/models/secondary
 ```
 
 ```{r}
-#IGNORE
-plot(parameters::model_parameters(overall_brm, effects = "fixed"))
+#| label: citations
+cite_packages()
 ```
 
 ```{r}
