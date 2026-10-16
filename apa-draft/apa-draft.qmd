@@ -1,0 +1,450 @@
+---
+title: "Temporal Trends in Psychometric Reporting Quality in Psychology"
+shorttitle: "EXAMINATION OF TEMPORAL TRENDS"
+author:
+  - name: 307351
+    corresponding: true
+    affiliations:
+      - name: University of Sussex
+        department: Department of Psychology
+author-note:
+  status-changes: 
+    affiliation-change: ~
+    deceased: ~
+  disclosures:
+    study-registration: ~
+    data-sharing: ~
+    related-report: ~
+    conflict-of-interest: ~
+    financial-support: ~
+    gratitude: ~
+    authorship-agreements: ~
+    abstract: "Sound measurement is fundamental to psychological science, yet the transparency with which psychometric instruments are developed, validated, and reported has long been questioned. Although the past two decades have seen the publication of formal reporting standards and a broad movement toward methodological reform following the replication crisis, whether these developments have improved the reporting of newly developed and modified measures remains unknown. The present study examined whether the quality of psychometric reporting changed across the period 2002 to 2026, using a large sample of 1,142 measures nested within 530 articles drawn from five psychology subfields. Reporting quality was operationalised as the proportion of preregistered coding criteria met for each measure, and modelled using a Bayesian multilevel beta regression with a piecewise linear effect of publication year, incorporating a breakpoint fixed at 2014 to capture any shift associated with the revised reporting standards and the reform period that followed. Reporting quality did not credibly change over the study window, either overall or within any of four sub-dimensions comprising scale construction, sample description, validity and reliability, and dimensionality, and no credible change occurred at the 2014 breakpoint. Reporting was uniformly low and differed markedly across sub-dimensions, from sample description at the highest level to validity and reliability evidence at the lowest, though this ordering remained stable throughout. Variation in reporting quality was attributable to differences between articles rather than to publication year. These findings indicate that methodological reform has not reached the reporting of measurement, and suggest that structural, enforced interventions are now required."
+    
+keywords: [Keyword 1, Keyword 2, Keyword 3]
+bibliography: bibliography.bib
+format:
+  apaquarto-docx: default
+  apaquarto-html: default
+  apaquarto-typst: 
+    keep-typ: true
+  apaquarto-pdf:
+    documentmode: man
+---
+
+# **Temporal Trends in Psychometric Reporting Quality in Psychology**
+
+A fundamental aspect of psychological science is defining and measuring what is being studied. Before the aetiology of depression can be investigated or the efficacy of an intervention to treat it evaluated, the construct under investigation must be defined and instruments capable of measuring it accurately must be built [@flake2020]. This task is difficult because psychological constructs such as depression, personality traits, attitudes, and cognitive abilities rarely permit direct observation. Construct validity is foundational to psychological measurement to see whether a measure’s scores actually track a person’s true position on the underlying construct [@clark2019; @cronbach1955]. Because this can only be judged when authors report sufficient detail about their measures, incomplete measurement reporting undermines both the assessment of construct validity and the interpretability of the resulting research claims [@lawson2026]. When construct validity is poor, scores do not reflect the attribute they are claimed to reflect, and the resulting inferences are compromised in a manner that no amount of rigorous design, advanced statistics, or large samples can correct [@flake2020; @loevinger1957]. The quality with which measurement is conducted, and the transparency with which it is reported, is thus not one methodological concern among many but a precondition for the accumulation of psychological knowledge.
+
+## **The state of psychometric reporting**
+
+Despite the foundational role that measurement plays in the validity of study conclusions, important information regarding measurement is routinely absent from published psychology articles. Measures are used without reference to their source, evidence that they capture the purported construct is frequently lacking, and unjustified measurement flexibility abounds. These practices largely proceed unseen, but the metascientific studies that have examined them reveal a consistent picture. @barry2014 reported that between 40% and 93% of measures used across seven journals in health education and behaviour lacked validity evidence, and @weidman2017 found that among 356 measurement instances coded in their review of emotion research, 69% included no reference to prior research or any systematic development process. Examining a representative sample of measures published in the *Journal of Personality and Social Psychology*, @flake2017 reported that 40% were used without any indication of their source, 19% without the number of items, and 9% without the response scale, and that where reliability was reported it was very often Cronbach's alpha alone. The pattern these studies establish is not one of imperfect but improving practice; it is one of a field in which minimal reporting standards are the exception rather than the rule.
+
+The problem deepens when reporting is examined not as a matter of what is disclosed but of what is true. @hussey2020 subjected 15 of the most widely used self-report measures in social and personality psychology to comprehensive validity assessment, including factor structure, test-retest reliability, and measurement invariance. Only 4% demonstrated good validity, even though 88% appeared adequate on the basis of internal consistency alone. The authors termed the resulting condition hidden invalidity, warning that the underreporting of tests of structural validity may conceal an abundance of invalid measures hiding in plain sight. This finding carries a pointed implication: the single property that psychologists do report with any regularity, internal consistency, is close to useless as a guide to whether a measure is valid. Reporting practice is therefore not merely incomplete but weighted toward the least diagnostic form of evidence. A subsequent systematic review reinforced the point, finding that approximately 9% of multi-item scales in the studies underlying the Reproducibility Project were accompanied by any factor analysis [@flake2022].
+
+These concerns are not confined to self-report questionnaires. @parsons2019 argued that psychology has not developed a tradition of routinely examining or reporting the reliability of cognitive and behavioural task measures, and that establishing such a practice as a field-wide standard is a precondition for drawing robust inferences from the analyses these measures support. That the difficulty has itself become a recognised area of study is telling; @meier2023 framed an entire collection around the persistence of measurement problems in psychological research, signalling that the problem is understood not as a historical embarrassment now being corrected but as a stubborn and ongoing feature of contemporary practice. Taken together, this body of work establishes that inadequate psychometric reporting is broad, persistent, and cross-cutting, spanning subfields, measure types, and categories of validity evidence. What it does not establish is whether the situation has changed over time. Almost every study in this literature offers a cross-sectional snapshot; scarcely any was designed to ask whether reporting quality has improved, stagnated, or deteriorated.
+
+## **Questionable measurement practices and researcher degrees of freedom**
+
+The absence of measurement information is not a neutral omission. @flake2020 introduced the term "questionable measurement practices" to describe the decisions researchers make that raise doubts about the validity of the measures used in a study, and ultimately about the validity of the study's conclusions. Measurement in the social sciences, they argued, usually comes with a garden of forking paths: data collected with a ten-item questionnaire can be summarised into a single sum score in more than a thousand ways, and the possibilities multiply further once subscales and alternative analytic techniques are considered. This flexibility exists whether or not a researcher consciously intends to exploit it, and when the decisions taken along the way are neither reported nor justified, the scientific community is left unable to evaluate the study's internal, external, statistical-conclusion, and construct validity. Questionable measurement practices are, in this respect, broader in their consequences than the questionable research practices that have dominated methodological reform, because they compromise not merely the analysis of the data but the data themselves.
+
+The field has responded to these concerns by developing formal standards intended to anchor reporting practice. The *Standards for Educational and Psychological Testing*, revised in 2014 by the American Educational Research Association, the American Psychological Association, and the National Council on Measurement in Education [@aera2014], provide the most comprehensive framework for evaluating validity evidence, organised around test content, response processes, internal structure, relations to other variables, and consequences of testing. The revised Journal Article Reporting Standards codified expectations for the transparent reporting of measures used in quantitative research [@appelbaum2018] , and more recent guidance has continued to systematise the reporting of quantitative analysis at both the planning and results stages [@schubert2025]. The existence of such standards, however, guarantees nothing about their uptake. A guideline can be published without being read, cited without being followed, and endorsed in principle while ignored in practice. Whether the reporting behaviour of working psychologists actually shifted in the wake of these frameworks is a question that has gone largely unexamined.
+
+## **Measurement and the credibility revolution**
+
+The stakes of this question are raised by the direct link between measurement quality and the replicability of psychological findings. Poor measurement undermines replication through a specific mechanism: the attenuation of effects by measurement error. When an instrument lacks precision, the signal-to-noise ratio of a study falls, statistical power declines, and the probability of failing to detect a genuine effect rises across independent studies [@loken2017]. @hedge2017 demonstrated formally that measures with poor reliability produce highly variable effect-size estimates, rendering successful replication a near-statistical impossibility even when the underlying effect is real. Inadequate psychometric reporting compounds this problem at the level of the literature as a whole, because a field that cannot observe the reliability of its measures cannot diagnose measurement error as a source of its replication failures; the very information required to explain non-replication is the information most often withheld.
+
+The replication crisis, brought into sharp relief by the @estimati2015's finding that only 36% of 100 published psychological studies replicated successfully, prompted a wave of methodological reform whose scope is difficult to overstate. Preregistration, registered reports, open data, open materials, and the Transparency and Openness Promotion guidelines were adopted across journals and subfields within a few years. @korbmacher2023 characterised this period not as a collapse but as a credibility revolution, marked by structural, procedural, and community-driven improvements in research practice. If this revolution reshaped the methodological culture of the field, its influence might reasonably be expected to have reached measurement practice, tightening the reporting of the instruments on which quantitative psychology depends.
+
+The most direct evidence available on this point is not encouraging. In the study most closely comparable to the present one, @lawson2026 coded 1,198 questionnaire measures across 506 *Social Psychological and Personality Science* articles published between 2010 and 2020, the decade encompassing the onset and aftermath of the credibility revolution, and examined whether measurement-reporting practices changed over that period. Most did not. Reporting of scale names, citations, number of items, and reliability coefficients remained essentially flat across the decade, and the only practice to increase substantially was the availability of study materials. The authors concluded that increased attention to measurement reporting has not necessarily translated into better reporting practices. The reform movement, on this evidence, may have moved materials into the open without moving the reporting of measurement quality at all.
+
+Two features of this finding define the space the present study occupies. First, it is powerful precisely because it is temporal; unlike the cross-sectional snapshots that preceded it, @lawson2026 modelled change over time and found little. Second, its scope was deliberately narrow. The authors examined a single journal, a single subfield, and a single decade, and coded what they described as the lower-effort details about measures that authors can report, noting that the more demanding indicators such as factor structure and convergent and discriminant validity are unlikely to be reported when even these basic characteristics are missing. Whether the flat trajectory documented in one corner of social and personality psychology generalises to the field at large, across clinical, cognitive, developmental, and applied psychology, across a longer observation window, and across the deeper dimensions of psychometric reporting the authors left uncoded, remains an open and consequential question.
+
+## **The present study**
+
+The confluence of these literatures defines a specific and unfilled gap. There is abundant cross-sectional evidence that psychometric reporting is poor, a mature set of standards prescribing what it ought to be, a far-reaching period of reform that might plausibly have improved it, and, in the single study to examine change directly, a discouraging suggestion that it has not. What is missing is a systematic, large-scale, multi-subfield examination of whether the quality of psychometric reporting for newly developed and modified measures has changed over time, and, if it has, whether any such change has been uniform or instead confined to particular kinds of evidence, particular subfields, or particular journal strata.
+
+This absence of evidence is increasingly consequential, because the volume of measurement in psychology is expanding rather than contracting. The proliferation of new measures, including ad hoc scales constructed for a single study, online adaptations of existing instruments, and cross-cultural modifications, has accelerated alongside the growth of online data collection and the rising output of the field [@anvari2025]. If poor reporting has persisted through the open-science era despite the ready availability of explicit guidelines, this would represent a fundamental and underappreciated threat to cumulative psychological science, in which ever more theory is built upon measurement foundations that are not adequately described. If, conversely, reporting quality has genuinely improved, this would constitute important positive evidence that reform efforts have exerted downstream effects on measurement practice, and might help to identify which mechanisms have been most effective.
+
+The present study therefore examines whether the reporting quality of newly developed and modified psychometric measures has changed across the period 2002 to 2026, a window spanning both the pre-reform era and the substantive reform period that followed the replication crisis, using a large sample of published psychology articles drawn from five subfields (clinical, applied, cognitive, developmental, and social psychology). In doing so it extends the existing literature in three respects. It broadens scope well beyond the single-journal, single-subfield samples of prior work; it lengthens the observation window to more than two decades, encompassing the full arc from before the revision of the *Standards* and the onset of the credibility revolution to well after; and it codes the deeper dimensions of psychometric reporting, including scale construction, participant description, validity and reliability evidence, and dimensionality, that earlier studies acknowledged but did not examine.
+
+The study accordingly addresses one primary and two secondary research questions. The primary question asks whether the overall quality of psychometric reporting for newly developed and modified measures has improved across 2002 to 2026. The first secondary question narrows the focus to the type of validity evidence reported, including dimensionality, internal consistency, convergent validity, discriminant validity, and relations with other variables, since an improvement concentrated in some forms of evidence but not others would carry different implications from a uniform shift, and would indicate whether the field is deepening its engagement with construct validity or satisfying only its least demanding expectations. The second secondary question asks whether the development procedures used to construct measures, such as expert review, cognitive interviewing, and piloting, have changed over time, addressing whether any shift in reporting reflects genuine change in how measures are built rather than only in how they are described.
+
+# Method
+
+### Description of the articles included
+
+The final analytic sample comprised 530 articles, reporting 1,142 psychometric measures. The analysed articles spanned a broad range of disciplinary categories, as classified by the Journal Citation Reports (JCR). The most heavily represented categories were multidisciplinary psychology, education and educational research, and psychiatry, followed by the clinical, social, experimental, and developmental psychology categories. Beyond these, a substantial tail of categories each contributed smaller numbers of articles, including health care sciences, criminology, nursing, social work, and communication, reflecting the interdisciplinary reach of published psychological measurement. Because journals are frequently classified under more than one category in the JCR, individual articles could contribute to more than one category, and the category counts therefore exceed the total number of articles. The full distribution of articles across journal categories is presented in @tbl-journal-category. It should be noted that, although the sampling frame was designed around five psychology subfields, the analysed sample is characterised here by journal category rather than by the originally intended subfield strata.
+
+Coders
+
+Coding was carried out by a geographically distributed team of researchers based across multiple continents, including Europe, Australia, North America, South America, and Asia. Coders varied in career stage, ranging from master's and doctoral students to early- and mid-career researchers, with early-career researchers and postdoctoral researchers forming the largest part of the pool . Demographic information such as age and gender was not systematically recorded for individual coders and is therefore not reported here.
+
+### Materials
+
+#### Data sources and eligibility criteria
+
+Article metadata were drawn from OpenAlex, an open bibliographic database whose coverage exceeds that of Web of Science and Scopus by several orders of magnitude [@culbert2025]. OpenAlex was selected because it provides a documented, free application programming interface (API) that supports bulk extraction, detailed filtering, and randomised sampling of records. Journal-level metrics were obtained from Clarivate's Journal Citation Reports (JCR), which at the time of writing was last updated on 15 October 2025 and indexed 5,969 journals. To avoid inadvertently excluding interdisciplinary work published outside dedicated psychology outlets, journals were drawn from the JCR category groups labelled Psychiatry/Psychology, Social Sciences and General.
+
+Eligibility was assessed against two sets of criteria, applied in sequence. The first set was embedded within the OpenAlex API call and operated on article-level metadata using structured API queries. To be retrieved, an article had to have been published between 2002 and 2026, possess a DOI together with an ISSN or eISSN, not have been retracted, be indexed within a subfield of psychology, be indexed as the document type "article", and be written in English. The second set operated at the journal level following retrieval. Duplicate records were removed, and the ISSNs and eISSNs associated with each article were cross-referenced against the compiled list of journals and their JCR metrics, any article whose identifiers failed to match a journal in that list was excluded. This two-stage procedure ensured that every retained article could be linked to the journal-level covariates required for later analysis.
+
+#### Article retrieval and sampling
+
+Articles were retrieved from OpenAlex using structured API queries, one per psychology subfield, with each subfield identified through its corresponding Wikidata concept. A representative query specified that retrieved works have a DOI, not be retracted, fall within the publication window (from 1 January 2002 to 11 February 2026), belong to the target subfield, be associated with a source carrying an ISSN, be of type "article", and be written in English. The breadth of the eligibility criteria meant that well over one million papers were identified making, manual screening feasible. Therefore, a randomised subset of 10,000 articles was drawn for each of five psychology subfields, namely clinical, applied, cognitive, developmental, and social, yielding a starting sample of 50,000 articles prior to the removal of duplicates and articles whose identifiers did not match a JCR-indexed articles in the filtered pool were coded, as the number remaining after filtering was expected to run to tens of thousands. The minimum target for fully coded articles was approximately 1,000 which conservatively mirrors the sample sizes used in comparable reporting-practice reviews [@barry2013]. This paper reports analysis of the articles coded upto August 8th, 2026: given the models fitted are Bayesian no statistical issues arise from analysing the data before the planned sample size is reached.
+
+### Design
+
+Each eligible article was coded against a structured scheme, and its coded responses were converted into quantitative scores. Data were organised at three hierarchical levels. Journal-level data comprised the publisher, the Journal Impact Factor (JIF), and the cited half-life. Article-level data comprised the year of publication, the digital object identifier (DOI), and open access status. Measure-level data comprised characteristics of each instrument, including whether it was single-item or multi-item, whether it was newly developed or a modification of an existing measure, and the types of validity and reliability evidence reported. The temporal window of 2002 to 2026 was chosen to span both the pre-reform period and the substantive methodological reform that followed the replication crisis, so that reporting practices before and after this shift could be compared within a single sampling frame.
+
+### Procedure
+
+#### Screening and coder allocation
+
+Although most filtering was embedded within the API call, coders applied two further exclusions at the point of coding. An article was excluded if it did not contain any newly generated or modified psychometric measure, or if it explicitly stated that all relevant measures were not intended for research use. Because coders worked from full-text articles, bibliographic fields such as author names, titles, and abstracts could not be obscured. To limit the bias this introduces, any coder who reported having been involved in the conception, design, analysis, or writing of an assigned article, or who reported any other conflict of interest, was reallocated to a different, randomly selected article. The screening and selection process is summarised in @fig-prisma , reported follwing an adapted PRISMA 2020 flow [@page2021].
+
+#### Coding scheme and outcome measures
+
+Each article was coded against a structured scheme in which items and sub-items were scored 1 when the relevant information was reported and 0 when it was not. No distinction was drawn between information located in the main text or supplementary materials. Free-text "other" responses were scored 1 where one or more entries were provided and 0 where the field was left blank. Coded responses were aggregated into five composite scores. The coding scheme structure can be seen in @fig-coding-scheme .
+
+The first composite, descriptive information about scale construction, drew on the items describing how a scale was developed. Multi-response items were scored one point per option selected, and the item recording whether scale items themselves were reproduced was scored on a three-point scale reflecting whether all items, example items, or no items were provided. This composite ranged from 0, indicating that nothing was reported, to 14, indicating that everything feasibly reportable was reported. The second composite, participant descriptions, aggregated information about the development sample and missing data, treating sample location, administration, and mode as separate sub-items, and ranged from 0 to 8. The third and fourth composites captured validity and reliability evidence respectively: the validity composite ranged from 0 to 2, reflecting whether convergent and discriminant evidence were reported, and the reliability composite ranged from 0 to 4, reflecting the number of distinct reliability indices reported. The fifth composite, dimensionality, was scored separately for exploratory factor analysis or principal components analysis, ranging from 0 to 10, and for confirmatory factor analysis, ranging from 0 to 6, so that articles reporting either or both approaches received the appropriate score.
+
+The primary outcome was the proportion of plausible information reported. This proportion was formed by summing the composite scores and divided by the maximum score attainable for that article ( which depended on the analytic approaches adopted in the article). Expressing the outcome as a proportion ensured that articles were evaluated only against the information it was reasonable to expect them to provide.
+
+#### Intercoder reliability
+
+Reliability of coding was assessed at three points. Before data collection began, all coders independently coded a common set of 10 calibration articles. Reliability was then reassessed at the midpoint and at the end of data collection, each time using three pre-screened articles. Two complementary indices were computed: Krippendorff's alpha and simple percent agreement. Both were reported because Krippendorff's alpha can return conservatively low estimates when category usage is heavily skewed, a situation in which percent agreement provides useful context. Acceptable reliability was defined as a Krippendorff's alpha of at least 0.67 together with percent agreement of at least 75% [@krippendorff2019].
+
+During the calibration phase, a small number of coders were pointed back to the guidance documents after some initial confusion about which measures should be coded. In these cases, coders had misunderstood the scope of the task. The confusion was that already-validated measures used without any changes were not meant to be coded, and neither were basic demographic questions such as a participant's age or level of education. Once this was clarified, coding continued in line with the agreed scheme.
+
+### Analytic plan
+
+The study was designed to answer three research questions. The primary question was whether the overall quality of psychometric reporting for newly developed and modified measures has improved over time between 2002 and 2026. The second was whether the type of validity evidence reported, such as dimensionality, internal consistency, convergent validity, discriminant validity, and relations with other variables, has changed over time. The third was whether specific item development procedures, such as expert review, cognitive interviewing, and piloting, have changed over time. The present study's design and planned analysis was pre-registered in Open Science framework ()
+
+**Research Question 1.** The primary outcome was the proportion of applicable coding-scheme items reported for a given measure, a continuous quantity bounded between 0 and 1. Because a single article can report more than one newly developed or modified measure, an article may contribute several such proportions, which are therefore not independent of one another. To accommodate this structure, the outcome was modelled using a multilevel Bayesian beta regression [@ferrari2004; @smithson2006], which is appropriate for continuous proportional data and thus avoids the distortions that arise when bounded outcomes are treated as though they were unbounded and normally distributed, and, through a random intercept for article it accounts for the nesting of measures within articles. To capture change over time while allowing the trajectory to differ before and after the open science reforms that consolidated around 2014 [@opensciencecollaboration2015] , the fixed part of the linear predictor took a piecewise form with a breakpoint at that year:
+
+$$\begin{aligned}g\left(\mu_{ij}\right) &= \ln\left(\frac{\mu_{ij}}{1-\mu_{ij}}\right) =  \eta_{ij}\\\eta_{ij} &= \left[\beta_{0} + \beta_1\text{time}_{i} + \beta_2\left(\text{time}_{i}-12\right)\times \text{era}_{i} \right] + \left[\mu_{0j} + \varepsilon_{ij}\right]\end{aligned}$$
+
+Here, the subscripts $i$ and $j$ denote an individual measure and the article in which it appears, so that measures (level one) are nested within articles (level two). Time was coded so that 2002 was year zero and each subsequent value represented the number of years elapsed since 2002, and era was a dummy variable coded 0 for the pre-2014 period and 1 for the post-2014 period. Within the fixed part of the model, $β_0$ is the mean reporting proportion in 2002 in log-odds units, $β_1$ is the slope of reporting quality across the pre-2014 period, $β_1+β_2$​ is the slope across the post-2014 period, and $β_2$​ is therefore the difference in slope after 2014 relative to before it, with the two segments meeting at the 2014 breakpoint so that the trend remains continuous. The random part comprises two terms: $\mu_{0j}$ is a by-article random intercept, capturing the degree to which the baseline reporting proportion of article $j$ departs from the overall average and thereby accounting for the non-independence introduced when an article contributes several measures, and $\varepsilon_{ij}$ is the level-one residual for measure $i$ within article $j$ . The hypotheses for this question were directional: reporting quality was expected to be broadly flat before 2014, so $β_1$​ was predicted to lie close to zero, and to improve thereafter, so $β_2$ was predicted to be positive.
+
+Priors were specified on the log-odds scale on which the coefficients are expressed. Considering the plausible range of annual change in a proportion bounded on the unit interval, together with the expectation that reporting should not decline, the slope coefficients were assigned a $N(0.5,0.25)$ prior, which concentrates prior mass over the plausible positive range while permitting modest decreases. The intercept, representing the expected reporting proportion in 2002, was assigned a $N(0,3)$ prior, which comfortably spans base rates from roughly 0.1 to 0.9 in log-odds units, and default weakly informative priors were retained for the dispersion parameter. Because the model includes a random intercept for article, the between-article variance of these intercepts( $\sigma^2_{\mu_0}$​ ) must also be estimated as we held no substantive hypothesis or prior information about the magnitude of between-article variability, this parameter was assigned a noninformative prior restricted to positive values.
+
+**Research Questions 2 and 3.** For each category of validity evidence and each item development procedure, the proportion of articles reporting that category or procedure was summarised per year and per era, and temporal trends were visualised using grouped time series plots. In addition, the piecewise beta-regression model was refitted separately to each sub-dimension of the coding scheme, namely descriptive information about scale construction, participant descriptions, validity and reliability combined, and dimensionality, with articles excluded from the dimensionality model where the relevant factor-analytic items were not reported. Because no directional predictions were made for these sub-dimensions, their slope coefficients were assigned weaker $N(0,1)$ priors.
+
+All models were fitted in R version 4.5.2 [@rcoreteam2025] within a Bayesian framework using the brms interface to Stan [@bürkner2017]. Posterior distributions were summarised using point estimates and 95% credible intervals, and convergence was assessed through the potential scale reduction factor and effective sample size for all parameters.
+
+### Ethics
+
+The study analysed published, publicly accessible bibliographic and article data and did not require review by a research ethics committee. All source articles were obtained through legitimate institutional and open-access routes, and no personal or identifying data were collected at any point. In keeping with open and reproducible research practice, the study's design, hypotheses, and analysis plan were pre-registered prior to data collection, and the coding materials and analysis code will be made openly available.
+
+# Results
+
+The final analytic sample comprised 1,142 psychometric measures nested within 530 articles. Every coded article matched its journal and publication metadata, and none fell outside the 2002 to 2026 study window. Across the full sample, the overall proportion of reporting criteria met was low. On average, measures met 41% of the coded criteria (*SD* = 0.11), with scores ranging from 0.03 to 0.75. No measure in the sample met more than three quarters of the applicable reporting criteria. Reporting differed substantially across the four sub-dimensions. Sample description was the most completely reported, with measures meeting on average 73% of its criteria (*SD* = 0.20). Dimensionality was reported at an intermediate level (*M* = 0.46, *SD* = 0.22), computed only for the 248 measures that reported a factor analytic procedure, while scale construction was reported at a similar level to the overall score (*M* = 0.37, *SD* = 0.15). Validity and reliability evidence was the least reported by a considerable margin, with measures meeting on average only 13% of its criteria (*SD* = 0.14). Full descriptive statistics for the overall score and the four sub-dimensions are presented in @tbl-desc . The clustering of measures within articles is illustrated in @fig-arc , which shows the number of measures contributed by each article. While most articles reported a single measure, a substantial number reported two or more, and a small number reported many. This distribution confirmed that treating measures as independent observations would misrepresent the structure of the data, motivating the inclusion of a random intercept for article in all models.
+
+Convergence and fit were then assessed for the primary model. All coefficients returned R-hat values at or below 1.003, indicating that the four chains had converged to a common posterior distribution, and bulk effective sample sizes exceeded 2,100 for every parameter, well above the threshold recommended for stable estimation of posterior summaries [@vehtari2021]. Visual inspection of the trace plots confirmed this, showing four dense, overlapping, and stationary chains for each parameter with no drift or divergence. A posterior predictive check (as seen in @fig-trace and @fig-tracee ) indicated close correspondence between the observed distribution of reporting proportions and the distributions simulated from the fitted model, suggesting that the beta likelihood captured the shape of the outcome adequately across the range of the scale. The four secondary sub-dimension models were subjected to the same checks and likewise converged satisfactorily, with R-hat values at or below 1.008 and effective sample sizes exceeding 1,000 for every coefficient.
+
+Parameters (as seen in @tbl-diag )were summarised using the median of the posterior distribution, the 95% highest density credible interval, the probability of direction as an index of the existence of an effect, and the proportion of the posterior falling within a region of practical equivalence to zero [@makowski2019] .
+
+### Primary Analysis
+
+The primary research question asked whether the overall quality of psychometric reporting changed across the study period. Neither temporal parameter reached credibility. The pre-2014 slope was negligible ( $β$ = 0.005, 95% $CrI$ \[−0.010, 0.019\]), with a probability of direction of 72.62% and the entire credible interval falling within the region of practical equivalence, indicating no credible trend before 2014. The change in slope from 2014 onward, which constituted the direct test of whether reporting improved following the reporting standards revision and the reform movement, was likewise negligible ( $β$= −0.001, 95% $CrI$ \[−0.024, 0.021\]). Its probability of direction was 53.54%, barely distinguishable from chance, and its credible interval also fell entirely within the region of practical equivalence. The directional hypothesis that the post-2014 slope change exceeded zero was not supported (evidence ratio = 0.87), and the hypothesis that the post-2014 slope itself was positive was similarly unsupported. Because both credible intervals crossed zero and lay wholly within the region of practical equivalence, the finding is best interpreted not as an absence of evidence for change, but as positive evidence for the absence of change (@kruschke2018). Full parameter estimates are reported in @tbl-primary , and the modelled trend is shown in @fig-primary-trend .
+
+### Secondary Analysis
+
+The first secondary question asked whether the reporting of specific types of validity evidence changed over time. Neither the validity and reliability sub-dimension nor the dimensionality sub-dimension showed a credible temporal effect. Validity and reliability reporting was flat before 2014 ( $β$ = −0.011, 95% $CrI$ \[−0.035, 0.013\]). Its post-2014 change in slope carried the highest probability of direction of any coefficient in the analysis ( $β$ = 0.030, 95% $CrI$ \[−0.005, 0.066\], pd = 95.13%) and leaned positive, but it did not reach the threshold for a credible effect and its interval remained within the region of practical equivalence. This may be read as a faint and non-credible suggestion that reporting of validity and reliability evidence rose modestly after 2014, from the lowest baseline of any sub-dimension, but no confident conclusion is warranted. Dimensionality reporting, estimated on the subset of measures reporting a factor analysis, was also flat in both eras (pre-2014 $β$ = −0.020, 95% $CrI$ \[−0.079, 0.040\]; post-2014 $β$ = 0.026, 95% $CrI$ \[−0.063, 0.116\]).
+
+The second secondary question asked whether the reporting of scale construction and development changed over time. Scale construction showed no credible change in either era (pre-2014 $β$ = 0.008, 95% $CrI$ \[−0.015, 0.029\]; post-2014 $β$ = −0.014, 95% $CrI$ \[−0.046, 0.020\]), and neither did sample description (pre-2014 $β$ = −0.008, 95% $CrI$ \[−0.038, 0.021\]; post-2014 $β$ = 0.022, 95% $CrI$ \[−0.023, 0.068\]). In every case the credible interval crossed zero and fell within the region of practical equivalence. Parameter estimates for all four sub-dimension models are reported in @tbl-secondary-parameters , and their trajectories across the study period are shown in @fig-secondary-trends .
+
+# Discussion
+
+The present study sought to address a significant gap in the literature concerning whether the quality of psychometric reporting for newly developed and modified measures in psychology has changed over time. Across a large, multi-subfield sample of 1,142 measures nested within 530 articles, and a Bayesian multilevel beta regression modelling reporting quality as a piecewise function of publication year with a breakpoint fixed at 2014, the analysis showed a consistent result. Reporting quality did not change. The overall proportion of reporting criteria met remained approximately stable across the study window, with no credible trend before 2014 and no credible change in trajectory at the breakpoint marking the revision of the reporting standards and the consolidation of methodological reform. This stability was reproduced across all four sub-dimensions of reporting, none of which showed a credible temporal effect in either era. The single coefficient to approach conventional thresholds was the post-2014 change in validity and reliability reporting, which leaned positive but did not reach credibility and remained within the region of practical equivalence to zero, indicating at most a faint and non-credible suggestion of increase from the lowest baseline of any sub-dimension.
+
+The findings did not support the primary hypothesis that overall reporting quality improved across the study period, nor either secondary hypothesis regarding change in the type of validity evidence reported or in the reporting of development procedures. The interpretation of these null results lies on the estimation framework. Because the analysis was conducted in a Bayesian framework, the flatness can be asserted rather than merely inferred from a failure to reject. The probability of direction for the primary post-2014 slope was close to chance, and its credible interval fell wholly within the region of practical equivalence, which together support the positive conclusion that reporting quality did not change rather than the weaker claim that change escaped detection [@kruschke2018; @makowski2019]. This distinction is central since a finding of stability is only compelling if the analysis can distinguish genuine absence from an underpowered null, and the precision of the present estimates establishes that it can.
+
+The choice of a beta likelihood in preference to a Gaussian model further strengthens the validity of the inference. Because the outcome is a proportion bounded between zero and one, a Gaussian model would assign probability to impossible values beyond the limits of the scale and would distort both the estimated trend and its uncertainty, most severely for the sub-dimensions whose scores clustered near a boundary [@bürkner2017]. This consideration was most important for the validity and reliability sub-dimension, in which a substantial proportion of measures scored at the floor, where a model insensitive to that boundary would have misinterpreted both the level and the trajectory of reporting in precisely the domain in which reporting was weakest.
+
+The most substantively revealing feature of the analysis, however, was the partition of variance between the temporal predictors and the article-level random intercept. Publication year explained a negligible fraction of the variance in reporting quality, whereas differences between articles explained the large majority. It indicates that the dominant determinant of how well a measure is reported is not the era of publication but the article in which it appears, and by extension the practices of its authors and the standards of its outlet.
+
+## Situating the finding in the measurement literature
+
+Because no prior study has modelled psychometric reporting quality across so broad a sample or so long a window, direct comparison is limited. The most closely comparable work is @lawson2026, who tracked measurement-reporting practices across a decade in a single social and personality journal and found that most did not improve, the salient exception being the sharing of study materials. The present findings are consistent with theirs and extend them substantially, across five subfields rather than one, across two decades rather than one, and across the more demanding categories of psychometric evidence that the earlier study identified as consequential but did not code. That two studies employing different samples and operationalisations converge on the same conclusion lends it a robustness neither secures alone, and suggests that the stagnation of measurement reporting is a general property of the field rather than an product of a particular journal or coding scheme.
+
+The findings sit less comfortably alongside the broader narrative of a credibility revolution [@korbmacher2023], under which the field's methodological culture is held to have improved markedly since the replication crisis. The present results indicate that whatever the reach of that improvement in the domains of analytic transparency and data sharing, it did not extend to the reporting of the instruments on which quantitative claims ultimately depend. This pattern is intelligible in light of how the reform movement defined its targets. The questionable research practices that drove reform were predominantly analytic, concerning the flexibility available in the treatment of data once collected [@nagy2025; @simmons2011]. Questionable measurement practices, by contrast, concern the flexibility available in the construction and selection of the instruments that generate the data, and although @flake2020 argued that these are at least as consequential, receiving less attention from reformers. The blind spot is therefore structural: reform concentrated on what researchers do with data and largely bypassed the question of whether the data mean what they are taken to mean.
+
+## Why has sustained awareness produced no change?
+
+The more searching question these results pose is why. Deficiencies in psychological measurement have been documented and named repeatedly, from the reviews of the 1990s to the influential critiques of the past decade [@flake2020; @flake2017; @hussey2020] , and the relevant standards and reporting guidance have long been available [@aera2014; @schubert2025] . That such sustained awareness has not been accompanied by any measurable improvement is the central question these findings raise, and several explanations are worth considering.
+
+The first concerns incentives. The reforms that succeeded, foremost among them the sharing of study materials, were inexpensive, externally visible, and increasingly mandated, whereas the thorough reporting of validity evidence is effortful, competes for limited space, and is seldom a condition of acceptance. @lawson2026 observed that the practices which improved were the least demanding ones, and that the more substantial forms of evidence remained absent precisely where they were most needed. Where reform has depended on the voluntary modification of individual behaviour, its uptake has been more uneven than where change has been driven by structural and community-level mechanisms, which have been argued to underpin the more durable improvements of the reform era [@korbmacher2023].
+
+A second explanation is in the possibility that measures are frequently used without rigorous validation, such that improved reporting cannot follow because there is nothing to disclose. This interpretation draws indirect support from evidence that methodological shortcomings persist even when researchers are observed working rather than writing. @sladekova2026 , examining how 188 psychology researchers actually conducted two analytic tasks, found that checks for basic modelling assumptions were routinely omitted or performed in ways incapable of detecting the problems present, with only a modest advantage among those who taught research methods. Sparse reporting is frequently a faithful record of sparse underlying practice, and remedying it would require changing what researchers do rather than merely what they declare. The prevalence of the underlying problem, moreover, should be interpreted with the same care the present study applied to its own estimates. @fiedler2016 demonstrated that survey-based prevalence figures for questionable practices are readily inflated when the proportion of researchers who have ever engaged in a behaviour is mistaken for the frequency with which the behaviour occurs, and that the two quantities can differ by an order of magnitude. Their caution generalises: the salient point is not that every measure is poorly validated, but that the field lacks the reporting infrastructure that would allow the true rate to be known at all.
+
+A third and deeper explanation situates measurement reporting within psychology's broader difficulties with theory. @eronen2021 argued that the field's recurrent crises stem in part from the extreme difficulty of specifying and validating the constructs its theories invoke, since constructs that are vaguely defined cannot be measured well however carefully the measurement is reported. On this view, and on the related argument that psychology's problems lie in its research fundamentals rather than only in its research practices [@flores-kanter2026] , improved reporting is necessary but not sufficient, because it cannot compensate for constructs whose theoretical specification is too weak to support valid measurement in the first place. The stability observed here may therefore reflect not merely institutional inertia but a problem that reporting reform, by itself, is structurally unable to solve.
+
+#### Recommendations for practice
+
+The findings carry implications for editorial practice and for the culture of measurement in psychology. If two decades of awareness and reform have failed to move measurement reporting, then the voluntary and educational mechanisms relied upon to date are demonstrably insufficient, and structural approaches are indicated. The single reform that succeeded in the comparable literature succeeded because it became an expectation enforced at submission [@lawson2026]. Echoing this, the recommendation arising from the present findings is that journals adopt a mandatory measurement-reporting checklist, verified during peer review, requiring authors either to state the validity and reliability evidence for each measure or explicitly to declare its absence. The declaration of absence is itself valuable, since it converts a silent omission into a visible one that readers and reviewers can weigh. Because the variance decomposition located the determinants of reporting quality at the level of articles and outlets rather than the field as a whole, editorial enforcement is well targeted: a problem residing in the practices of particular authors and journals is more amneable to gatekeeping than one diffused evenly across the discipline.
+
+A second recommendation concerns the point of intervention. If sparse reporting reflects sparse practice, then reporting mandates alone will prove insufficient, because they cannot summon evidence that was never generated. Intervention earlier in the research lifecycle is therefore warranted, at the stage of measure selection and construction, alongside infrastructure that renders rigorous validation less costly. Validated measure repositories, registered measurement-development reports analogous to registered reports, and normative expectations that new measures undergo and document formal validation before use would each address the problem at its source [@clark2019] . Given the proliferation of ad hoc and modified measures evident across the wide range of journal categories in the present sample, such infrastructure is likely to become more necessary over time [@anvari2025] .
+
+## Limitations and future directions
+
+A key limitation concerns the interpretation of reporting quality as a proportion of a fixed and preregistered set of criteria. Although the maxima were specified a priori to represent what could feasibly be reported, the results are conditional on the composition of that criterion set, and the possibility remains that the upper region of the scale was rarely approached in practice, since no measure exceeded three quarters of the criteria. This is compatible both with genuinely incomplete reporting and with a scheme whose ceiling was seldom attainable. Future research could validate the criterion set against exemplar measures known to be well reported, establishing empirically whether the ceiling is reachable and calibrating the scheme accordingly.
+
+A further and related limitation arises from the conditional structure of the dimensionality items, several of which were displayed only when a factor analysis extracting more than one factor was reported. Measures reporting a single-factor solution could not, in principle, satisfy these criteria, and treating the unshown items as unmet may have understated the reporting quality of such measures. Future coding schemes would benefit from scoring conditional items against a denominator restricted to the items actually applicable to each measure.
+
+A third and more fundamental limitation concerns the distinction between the transparency of reporting and the substantive quality of the measurement reported. The present outcome quantifies whether specified information was reported, not whether the psychometric evidence, where present, was adequate. A measure could report a factor analysis, a reliability coefficient, and validity evidence, and thereby score highly, while the analyses themselves were poorly conducted. The study therefore speaks to reporting transparency rather than to measurement quality as such, and the two must not be conflated. This opens a clear direction for future research, in which the substantive adequacy of reported evidence, rather than its mere presence, is assessed and tracked over time, allowing the question of whether measurement itself has improved to be separated from the question of whether its reporting has.
+
+A final limitation is inferential. The piecewise model tests for a change in the rate of improvement at 2014, which is a specific assumption about the shape of any temporal effect. A reform influence that accumulated gradually, operated with a delay, or altered the variance rather than the mean of reporting might not appear as the slope change the model was designed to detect. Two features of the results ease this concern. No trend emerged in either period, so the stability holds across the whole window rather than only around the breakpoint, and the credible intervals for both slopes were narrow and fell within the region of practical equivalence, limiting any undetected effect to a negligible size. Future work could extend this approach with a change-point model that estimates the location of any shift rather than fixing it, allowing the data to indicate whether and when reporting practice changed.
+
+## Conclusion
+
+The present study has addressed a significant gap in the literature concerning whether psychometric reporting quality for newly developed and modified measures has changed over time. A Bayesian multilevel beta regression indicated no credible change in reporting quality across the period 2002 to 2026, either overall or within any of its four sub-dimensions, and no detectable improvement at the breakpoint marking the standards revision and the reform period. Reporting was uniformly low, and its baseline differed markedly across sub-dimensions while remaining stable within each over two decades. The variance decomposition further indicated that reporting quality was determined more by the article and its outlet than by the era of publication. These findings have strong implications for editorial and research practice, indicating that the methodological reforms of the past decade, whatever their success elsewhere, did not reach the reporting of measurement, and that the awareness-based mechanisms relied upon to date have proved insufficient. It is our recommendation that structural interventions, in the form of enforced reporting requirements at submission and infrastructure supporting validation earlier in the research process, are now required. Given how fundamental sound measurement is to the validity of psychological findings, it is our hope that the present study will provide the impetus for future research to examine these interventions directly, and to distinguish the reporting of measurement quality from its substance, so that the field's understanding of its most basic practices can at last begin to improve.
+
+# References
+
+<!-- References will auto-populate in the refs div below -->
+
+::: {#refs}
+:::
+
+# Appendix {#apx-a}
+
+```{r}
+#| label: fig-prisma
+#| fig-cap: "Screening and selection of articles, following an adapted PRISMA 2020 flow."
+#| echo: false
+
+library(DiagrammeR)
+library(DiagrammeRsvg)
+library(rsvg)
+
+dir.create("figures", showWarnings = FALSE)
+
+g <- grViz("
+digraph prisma {
+  graph [fontsize = 11, splines = ortho]
+  node  [shape = box, fontname = Helvetica, fontsize = 11, width = 3.4]
+
+  id [label = 'Records identified via OpenAlex API\\n(10,000 per subfield x 5 subfields = 50,000)\\nJournal metrics cross-referenced from Clarivate JCR']
+
+  screen [label = 'Coding responses screened\\n(n = 2,810)']
+
+  excl1 [label = 'Responses excluded (n = 2,254):\\l  Coding not completed\\l  Article inaccessible\\l  Exclusion criteria met (no new or\\l  modified measure; measure not for\\l  research use)\\l  Duplicate coding of same article\\l', width = 4.2]
+
+  pass [label = 'Articles passing screening\\n(n = 556)']
+
+  excl2 [label = 'Articles excluded (n = 26):\\l  No codeable measure reported\\l', width = 4.2]
+
+  incl [label = 'Articles included in analysis\\n(n = 530)']
+  meas [label = 'Measures coded and analysed\\n(n = 1,142)']
+
+  id -> screen -> pass -> incl -> meas
+  screen -> excl1 [constraint = false]
+  pass   -> excl2 [constraint = false]
+
+  { rank = same; screen; excl1 }
+  { rank = same; pass; excl2 }
+}
+")
+
+g |> export_svg() |> charToRaw() |> rsvg_png("figures/fig_prisma.png", width = 1600)
+
+knitr::include_graphics("figures/fig_prisma.png")
+```
+
+```{r}
+#| label: fig-coding-scheme
+#| fig-cap: "Structure of the coding scheme and its scoring."
+#| echo: false
+
+library(DiagrammeR)
+library(DiagrammeRsvg)
+library(rsvg)
+
+dir.create("figures", showWarnings = FALSE)
+
+g <- grViz("
+digraph scheme {
+  graph [rankdir = TB, fontsize = 11]
+  node  [shape = box, fontname = Helvetica, fontsize = 11]
+
+  score [label = 'Psychometric reporting score\\n(proportion of items reported per measure)',
+         style = filled, fillcolor = '#e8e8d0', width = 4.2]
+
+  con [label = 'Scale construction\\n(max 14)']
+  par [label = 'Sample description\\n(max 8)']
+  vr  [label = 'Validity and reliability\\n(max 6)']
+  dim [label = 'Dimensionality\\n(max 10 EFA/PCA or 6 CFA)']
+
+  con_i [label = 'Construct definition; target population;\\ldevelopment procedure; item content;\\lresponse format; item depiction;\\lscoring and interpretation\\l', shape = plaintext, fontsize = 10]
+  par_i [label = 'Number of participants; gender; age;\\lrecruitment; data collection;\\lmissing data\\l', shape = plaintext, fontsize = 10]
+  vr_i  [label = 'Convergent validity; discriminant\\lvalidity; internal consistency\\ltypes (reliability)\\l', shape = plaintext, fontsize = 10]
+  dim_i [label = 'EFA/PCA: number of factors, rotation,\\ldetail items; or CFA: fit indices,\\lmodifications\\l', shape = plaintext, fontsize = 10]
+
+  score -> con
+  score -> par
+  score -> vr
+  score -> dim
+
+  con -> con_i
+  par -> par_i
+  vr  -> vr_i
+  dim -> dim_i
+
+  { rank = same; con; par; vr; dim }
+  { rank = same; con_i; par_i; vr_i; dim_i }
+}
+")
+
+g |> export_svg() |> charToRaw() |> rsvg_png("figures/fig_coding_scheme.png", width = 1800)
+
+knitr::include_graphics("figures/fig_coding_scheme.png")
+```
+
+```{r}
+library(easystats)
+library(tidyverse)
+baseline_year   <- 2002   
+breakpoint_year <- 2014   
+window_years    <- c(2002, 2026)
+
+category_counts_tib    <- readRDS("D:/SUSSEX/mahima_das_2026_dissertation/models/category_counts_tib.rds")
+analysis_tib <- readRDS("D:/SUSSEX/mahima_das_2026_dissertation/models/analysis_tib.rds")
+```
+
+```{r}
+#| label: tbl-journal-category
+#| tbl-cap: "Distribution of Analysed Articles Across Journal Citation Reports Categories"
+category    <- readRDS("D:/SUSSEX/mahima_das_2026_dissertation/models/category.rds")
+category
+```
+
+```{r}
+#| label: tbl-desc
+#| tbl-cap: "Descriptive statistics for the overall reporting proportion and the four sub-dimensions"
+
+summary <- readRDS("D:/SUSSEX/mahima_das_2026_dissertation/models/summary.rds")
+summary
+```
+
+```{r}
+#| label: fig-arc
+#| fig-cap: "Distribution of the number of measures reported per article"
+#the clustering the random intercept is there to handle
+measures_plot <- analysis_tib |>
+  count(doi, name = "measures") |>
+  ggplot(aes(x = measures)) +
+  geom_bar(fill = "#999933", colour = "black", alpha = 0.7) +
+  scale_x_continuous(breaks = scales::breaks_width(1)) +
+  labs(x = "Measures coded within an article", y = "Number of articles") +
+  theme_minimal()
+
+measures_plot
+```
+
+```{r}
+
+#reading the already saved models
+overall_brm    <- readRDS("D:/SUSSEX/mahima_das_2026_dissertation/models/overall_brm.rds")
+secondary_brms <- readRDS("D:/SUSSEX/mahima_das_2026_dissertation/models/secondary_brms.rds")
+
+
+```
+
+```{r}
+#| label: tbl-primary
+#| tbl-cap: "Parameter estimates for the primary Bayesian multilevel beta model"
+#median point estimate, 95% hdi, pd (existence) and rope
+model_parameters(
+  overall_brm,
+  centrality = "median",
+  ci         = 0.95,
+  ci_method  = "hdi",
+  test       = c("pd", "rope"),
+  effects    = "all"
+) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-primary-trend
+#| fig-cap: Modelled trend in overall reporting quality across 2002 to 2026, with the piecewise fit and 2014 breakpoint
+
+#predict the trend across the window, keeping iterations for the fan of lines
+trend_wide <- tibble(time = seq(0, window_years[2] - baseline_year)) |>
+  dplyr::mutate(
+    era       = as.integer(time >= breakpoint_year - baseline_year),
+    time_post = (time - (breakpoint_year - baseline_year)) * era,
+    doi       = NA_character_               #population-level, ignore random effect
+  ) |>
+  estimate_relation(model = overall_brm, data = _, keep_iterations = 100) |>
+  dplyr::mutate(year = time + baseline_year)
+
+trend_long <- reshape_iterations(trend_wide)
+
+ggplot(analysis_tib, aes(x = publication_year)) +
+  geom_point(aes(y = prop_score), alpha = 0.3) +
+  geom_line(data = trend_long, aes(x = year, y = iter_value, group = iter_group),
+            alpha = 0.08, colour = "#999933") +
+  geom_ribbon(data = trend_wide, aes(x = year, ymin = CI_low, ymax = CI_high),
+              fill = "#999933", alpha = 0.25) +
+  geom_line(data = trend_wide, aes(x = year, y = Predicted),
+            colour = "#999933", linewidth = 0.9) +
+  geom_vline(xintercept = breakpoint_year, linetype = "dashed") +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(x = "Publication year", y = "Proportion of items reported") +
+  theme_minimal()
+```
+
+```{r}
+#| label: tbl-secondary-parameters
+#| tbl-cap: Parameter estimates for the four sub-dimension models
+
+#posterior summaries for every sub-dimension in one table
+secondary_brms |>
+  imap(\(model, label) {
+    model_parameters(model, centrality = "median", ci = 0.95,
+                     ci_method = "hdi", test = c("pd", "rope")) |>
+      as_tibble() |>
+      dplyr::mutate(outcome = label, .before = 1)
+  }) |>
+  list_rbind() |>
+  dplyr::filter(str_detect(Parameter, "Intercept|^time")) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-secondary-trends
+#| fig-cap: Reporting trajectories for the four sub-dimensions across 2002 to 2026
+
+
+#observed sub-dimension proportions across time
+fig_trends   <- readRDS("D:/SUSSEX/mahima_das_2026_dissertation/models/fig-trends.rds")
+fig_trends
+```
+
+```{r}
+#| label: fig-trace
+#| fig-cap: Trace plots and posterior predictive check for the primary model
+
+#hairy caterpillars - one trace per chain, no pattern
+plot(overall_brm)
+
+```
+
+```{r}
+#| label: fig-tracee
+#| fig-cap: Trace plots and posterior predictive check for the primary model
+
+
+#does the model reproduce the observed distribution?
+check_predictions(overall_brm) |> plot()
+```
+
+```{r}
+#| label: tbl-diag
+#| tbl-cap: Diagnostic Parameters of the Posterior Distribution
+
+#rhat should be < 1.01, ess > 1000
+diagnostic_posterior(overall_brm) |> knitr::kable()
+```
